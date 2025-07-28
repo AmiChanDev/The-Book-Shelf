@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>The Book Shelf - Sign In</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+        <link rel="stylesheet" href="css/sign-in.css" />
+        <link rel="stylesheet" href="css/notification.css" />
+    </head>
+
+    <body>
+        <div class="container-fluid">
+            <div class="row no-gutters">
+                <!-- Left side image -->
+                <div class="col-lg-6 image-side"></div>
+
+                <!-- Right side form -->
+                <div class="col-lg-6 form-side d-flex justify-content-center align-items-center">
+                    <div style="width: 100%; max-width: 400px;">
+                        <div class="card-body form-container">
+
+                            <!-- Centered logo and headings -->
+                            <div class="text-center">
+                                <img src="images/logo.png" alt="Logo" class="mb-3" style="width: 80px; height: auto;">
+                                <h1 class="mb-4"><b>The Book Shelf</b></h1>
+                                <h2 class="mb-4">Sign In</h2>
+                            </div>
+
+                            <input type="email" id="email" class="form-control mb-3" placeholder="Email" required />
+                            <input type="password" id="password" class="form-control mb-3" placeholder="Password" required />
+
+                            <p id="errorMsg" class="error text-center mt-3 text-danger"></p>
+                            <p id="successMsg" class="error text-center mt-3 text-success"></p>
+                            <button id="signInBtn" class="btn btn-primary w-100 mb-3" onclick="signIn()">Sign In</button>
+
+                            <div class="text-center">
+                                <a href="sign-up.html">Not a member?</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p class="mb-0">&copy; 2025 The Book Shelf. All rights reserved.</p>
+        </footer>
+
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+        <script src="js/notification.js"></script>
+        <script src="js/sign-in.js"></script>
+    </body>
+
+</html>

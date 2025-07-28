@@ -1,0 +1,59 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa; /* Light background color */
+}
+
+.card {
+    border-radius: 10px;
+}
+
+.card-body {
+    padding: 30px;
+}
+
+h2 {
+    font-size: 1.75rem;
+    color: #333;
+}
+
+p {
+    color: #555;
+    font-size: 1rem;
+}
+
+.form-control {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 8px;
+}
+
+button {
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.error {
+    color: red;
+}
+
+.success {
+    color: green;
+}
+
+@media (max-width: 768px) {
+    .card {
+        width: 100%;
+        margin: 20px;
+    }
+}

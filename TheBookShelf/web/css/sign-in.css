@@ -1,0 +1,118 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container-fluid {
+    height: 100vh;
+    padding: 0;
+}
+
+.row.no-gutters {
+    margin: 0;
+    padding: 0;
+}
+
+.image-side {
+    background-image: url('bg.png');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    flex: 1;
+    padding: 0;
+}
+
+.form-side {
+    background-color: #f7f7f7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+    height: 100vh;
+}
+
+.form-container {
+    width: 100%;
+    max-width: 400px;
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    transform: translateY(-10px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-container:hover {
+    transform: translateY(-15px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+h1 {
+    font-size: 2rem;
+    color: #333;
+}
+
+h2 {
+    font-size: 1.5rem;
+    color: #555;
+}
+
+.form-control {
+    margin-bottom: 15px;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 8px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.image-side {
+    background: linear-gradient(rgba(30, 144, 255, 0.5), rgba(30, 144, 255, 0.5)), url('bg.png') no-repeat center center;
+    background-size: cover;
+    height: 100vh;
+    flex: 1;
+    padding: 0;
+}
+.error {
+    color: red;
+    text-align: center;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding: 7px 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    font-size: 1.2rem;
+    color: white;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.2), 0 0 10px rgba(0, 0, 0, 0.2), 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+
+@media (max-width: 768px) {
+    .image-side {
+        height: 200px;
+    }
+
+    .form-container {
+        width: 100%;
+        max-width: 100%;
+        padding: 15px;
+    }
+}

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>The Book Shelf - My Account</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+        <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+        <link rel="stylesheet" href="css/elements/navbar.css">
+        <link rel="stylesheet" href="css/elements/footer.css">
+        <link rel="stylesheet" href="css/my-account.css">
+        <link rel="stylesheet" href="css/notification.css" />
+
+    </head>
+    <body>
+        <header>
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container">
+                    <a class="navbar-brand d-flex align-items-center" href="index.html">
+                        <img src="images/logo.png" alt="Logo" width="40" height="40" class="me-2">
+                        <span class="fs-4 fw-bold"><h3>The Book Shelf</h3></span>
+                    </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ms-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.html">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="products.html">Browse Books</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="cart.html">Cart</a>
+                            </li>
+                            <li class="nav-item">
+                                <button class="btn btn-danger btn-outline-danger ms-lg-2" id="logoutBtn" onclick="signOut()">Logout</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <div class="container mt-5">
+            <h1 class="mb-4">The Book Shelf - My Account</h1>
+            <div class="media-body">
+                <h5 class="title mb-0">Hello <b id="username"></b></h5>
+                <span class="joining-date" id="since">Book Shelf Member Since <b id="created_at"></b></span>
+            </div>
+
+            <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link active" id="nav-details-tab" data-bs-toggle="tab" href="#nav-details" role="tab" aria-selected="true">
+                        <i class="fas fa-user"></i> Account Details
+                    </a>
+                    <a class="nav-item nav-link" data-bs-toggle="tab" href="#nav-purchase-history" role="tab" aria-selected="false">
+                        <i class="fas fa-mobile-alt"></i> Purchase History
+                    </a>
+                    <a class="nav-item nav-link" data-bs-toggle="tab" href="#nav-product-listing" role="tab" aria-selected="false">
+                        <i class="fas fa-list"></i> Book Listings
+                    </a>
+                    <a class="nav-item nav-link" data-bs-toggle="tab" href="#nav-address" role="tab" aria-selected="false">
+                        <i class="fas fa-home"></i> Addresses
+                    </a>
+                </div>
+            </nav>
+
+            <div class="tab-content mt-4" id="nav-tabContent">
+                <!-- User Info Section -->
+                <div class="tab-pane fade show active" id="nav-details" role="tabpanel">
+                    <h2>User Info</h2> <hr>
+                    <p><strong>Name:</strong> <span id="name"></span></p>
+                    <p><strong>Email:</strong> <span id="email"></span></p>
+                    <p class="hidden"><strong>Role:</strong> <span id="role"></span></p>
+
+                    <hr>
+                    <h4>Change Password</h4>
+                    <div class="mb-3">
+                        <label for="oldPassword" class="form-label">Current Password</label>
+                        <input type="password" class="form-control" id="oldPassword" placeholder="Enter current password">
+                    </div>
+                    <div class="mb-3">
+                        <label for="newPassword" class="form-label">New Password</label>
+                        <input type="password" class="form-control" id="newPassword" placeholder="Enter new password">
+                    </div>
+                    <p id="messageText" class="text-danger"></p>
+                    <button class="btn btn-primary" onclick="changePassword()">Change Password</button>
+                </div>
+
+                <!-- Purchase History Section -->
+                <div class="tab-pane fade" id="nav-purchase-history" role="tabpanel">
+                    <h2>Purchase History</h2><hr>
+                    <p>Coming soon...</p>
+                </div>
+
+                <!-- Product Listing Section -->
+                <div class="tab-pane fade" id="nav-product-listing" role="tabpanel">
+                    <h2>Book Listing</h2><hr>
+
+                    <!-- Tabs for Upload and View -->
+                    <nav>
+                        <div class="nav nav-tabs" id="product-nav-tab" role="tablist">
+                            <!-- Upload Book Tab -->
+                            <a class="nav-item nav-link active" id="upload-book-tab" data-bs-toggle="tab" href="#uploadBook" role="tab" aria-selected="true">
+                                <i class="fas fa-upload"></i> Upload a Book
+                            </a>
+                            <!-- View Uploaded Books Tab -->
+                            <a class="nav-item nav-link" id="view-books-tab" data-bs-toggle="tab" href="#viewBooks" role="tab" aria-selected="false">
+                                <i class="fas fa-book"></i> My Uploaded Books
+                            </a>
+                        </div>
+                    </nav>
+
+                    <div class="tab-content mt-4" id="product-nav-tabContent">
+                        <!-- Upload Book Section -->
+                        <div class="tab-pane fade show active" id="uploadBook" role="tabpanel">
+                            <h4>Upload Your Book</h4>
+                            <form id="uploadBookForm" enctype="multipart/form-data">
+                                <div class="mb-3">
+                                    <label for="bookTitle" class="form-label">Book Title</label>
+                                    <input type="text" class="form-control" id="bookTitle" placeholder="Enter book title">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="bookAuthor" class="form-label">Author</label>
+                                    <input type="text" class="form-control" id="bookAuthor" name="authorName" placeholder="Enter author name" disabled>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="bookGenre" class="form-label">Genre</label>
+                                    <select id="bookGenre" class="form-select">
+                                        <!-- Populate with genres dynamically -->
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="bookISBN" class="form-label">ISBN</label>
+                                    <input type="text" class="form-control" id="bookISBN" placeholder="Enter ISBN">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="bookPrice" class="form-label">Price</label>
+                                    <input type="number" class="form-control" id="bookPrice" placeholder="Enter price" step="0.01" min="0">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="bookStock" class="form-label">Stock</label>
+                                    <input type="number" class="form-control" id="bookStock" placeholder="Enter stock" min="0">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="bookDescription" class="form-label">Description</label>
+                                    <textarea class="form-control" id="bookDescription" rows="3" placeholder="Enter book description"></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="bookImage" class="form-label">Book Image</label>
+                                    <input type="file" class="form-control" id="bookImage" accept="image/*">
+                                </div>
+                                <p id="uploadMessage" class="mt-2 text-danger"></p>
+                                <button type="button" class="btn btn-success" onclick="uploadBook()">Upload Book</button>
+                            </form>
+                        </div>
+
+                        <!-- View Uploaded Books Section -->
+                        <div class="tab-pane fade" id="viewBooks" role="tabpanel">
+                            <h4 class="text-center">Your Uploaded Books</h4><br>
+                            <div class="row" id="uploadedBooksList"></div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Address Section -->
+                <div class="tab-pane fade" id="nav-address" role="tabpanel">
+                    <h2>Addresses</h2><hr>
+                    <ul id="addresses"></ul>
+                    <hr>
+
+                    <!-- Address Tabs -->
+                    <nav>
+                        <div class="nav nav-tabs" id="address-nav-tab" role="tablist">
+                            <a class="nav-item nav-link active" id="add-address-tab" data-bs-toggle="tab" href="#addAddress" role="tab" aria-selected="true">
+                                <i class="fas fa-plus"></i> Add Address
+                            </a>
+                            <a class="nav-item nav-link" id="update-address-tab" data-bs-toggle="tab" href="#updateAddress" role="tab" aria-selected="false">
+                                <i class="fas fa-edit"></i> Update Address
+                            </a>
+                            <a class="nav-item nav-link" id="delete-address-tab" data-bs-toggle="tab" href="#deleteAddress" role="tab" aria-selected="false">
+                                <i class="fas fa-trash"></i> Delete Address
+                            </a>
+                        </div>
+                    </nav>
+
+                    <div class="tab-content mt-4" id="address-nav-tabContent">
+                        <!-- Add Address Form -->
+                        <div class="tab-pane fade show active" id="addAddress" role="tabpanel">
+                            <h4>Add Address</h4>
+                            <form id="addAddressForm">
+                                <div class="mb-3">
+                                    <label for="addStreet" class="form-label">Street</label>
+                                    <input type="text" class="form-control" id="addStreet" placeholder="Enter street">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="addZipCode" class="form-label">ZIP Code</label>
+                                    <input type="text" class="form-control" id="addZipCode" placeholder="Enter ZIP code">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="addCitySelect" class="form-label">City</label>
+                                    <select id="addCitySelect" class="form-select">
+                                        <!-- Filled by JS -->
+                                    </select>
+                                </div>
+                                <p id="addAddressMessage" class="mt-2 text-danger"></p>
+                                <button type="button" class="btn btn-success" onclick="addAddress()">Add Address</button>
+                            </form>
+                        </div>
+
+                        <!-- Update Address Form -->
+                        <div class="tab-pane fade" id="updateAddress" role="tabpanel">
+                            <h4>Update Address</h4>
+                            <form id="updateAddressForm">
+                                <label for="selectAddressUpdate" class="form-label">Select Address</label>
+                                <select id="selectAddressUpdate" class="form-select mb-3"></select>
+                                <div class="mb-3">
+                                    <label for="updateStreet" class="form-label">Change Street</label>
+                                    <input type="text" class="form-control" id="updateStreet" placeholder="Enter street">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="updateZipCode" class="form-label">Change ZIP Code</label>
+                                    <input type="text" class="form-control" id="updateZipCode" placeholder="Enter ZIP code">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="updateCitySelect" class="form-label">Change City</label>
+                                    <select id="updateCitySelect" class="form-select"></select>
+                                </div>
+                                <p id="updateAddressMessage" class="mt-2 text-danger"></p>
+                                <button type="button" class="btn btn-primary" onclick="updateAddress()">Update Address</button>
+                                <button type="button" class="btn btn-secondary" onclick="clearUpdateForm()">Cancel</button>
+                            </form>
+                        </div>
+
+                        <!-- Delete Address Form -->
+                        <div class="tab-pane fade" id="deleteAddress" role="tabpanel">
+                            <h4>Delete Address</h4>
+                            <form id="deleteAddressForm">
+                                <div class="mb-3">
+                                    <label for="selectAddressDelete" class="form-label">Select Address</label>
+                                    <select id="selectAddressDelete" class="form-select"></select>
+                                </div>
+                                <p id="deleteAddressMessage" class="mt-2 text-danger"></p>
+                                <button type="button" class="btn btn-danger" onclick="deleteAddress()">Delete Address</button>
+                                <button type="button" class="btn btn-secondary" onclick="clearDeleteForm()">Cancel</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="js/notification.js"></script>
+            <script src="js/my-account.js"></script>
+            <script src="js/sign-out.js"></script>
+            <footer><p>© 2025 The Book Shelf. All rights reserved.</p></footer>
+    </body>
+</html>

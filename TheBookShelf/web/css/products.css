@@ -1,0 +1,43 @@
+body {
+    background-color: #f8f9fa;
+}
+.search-sidebar {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    height: fit-content;
+    border-right: 2px solid #007bff; /* Vertical line border */
+}
+.search-sidebar h4 {
+    color: #333;
+    margin-bottom: 20px;
+}
+.form-control, .form-select {
+    border-radius: 6px;
+    border: 1px solid #ced4da;
+}
+.form-control:focus, .form-select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+    border-radius: 6px;
+    padding: 10px;
+    transition: background-color 0.3s;
+}
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+#booksContainer {
+    min-height: 400px;
+}
+@media (max-width: 767px) {
+    .search-sidebar {
+        margin-bottom: 20px;
+        border-right: none; /* Remove vertical line on mobile */
+        border-bottom: 2px solid #007bff; /* Bottom border on mobile */
+    }
+}
