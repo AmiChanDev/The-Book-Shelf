@@ -60,6 +60,7 @@ async function loadAccount() {
                 document.getElementById("created_at").textContent = data.user.created_at;
                 document.getElementById("name").textContent = data.user.name;
                 document.getElementById("email").textContent = data.user.email;
+                document.getElementById("mobile").textContent = data.user.mobile;
                 document.getElementById("role").textContent = data.user.role;
 
                 document.getElementById("bookAuthor").value = data.user.name;

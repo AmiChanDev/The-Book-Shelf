@@ -16,6 +16,9 @@ public class User {
 
     @Column(unique = true, nullable = false, length = 100)
     private String email;
+    
+    @Column(nullable = false, length = 50)
+    private String mobile;
 
     @Column(nullable = false, length = 255)
     private String password;
@@ -84,5 +87,13 @@ public class User {
 
     public void setVerification(String verification) {
         this.verification = verification;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 }

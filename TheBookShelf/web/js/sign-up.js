@@ -4,12 +4,13 @@ async function handleSignUp() {
     const firstName = document.getElementById("firstName").value.trim();
     const lastName = document.getElementById("lastName").value.trim();
     const email = document.getElementById("email").value.trim();
+    const mobile = document.getElementById("mobile").value.trim();
     const password = document.getElementById("password").value.trim();
 
 //    const messageBox = document.getElementById("signup-message");
 //    messageBox.textContent = "";
 
-    if (!firstName || !lastName || !email || !password) {
+    if (!firstName || !lastName || !email || !password || !mobile) {
         popup.warning({title: "Warning", message: "All fields are required"});
         return;
     }
@@ -23,6 +24,7 @@ async function handleSignUp() {
             firstName,
             lastName,
             email,
+            mobile,
             password
         })
     })

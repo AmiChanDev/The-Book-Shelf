@@ -36,6 +36,7 @@ public class LoadAccount extends HttpServlet {
             JsonObject userJson = new JsonObject();
             userJson.addProperty("name", user.getName());
             userJson.addProperty("email", user.getEmail());
+            userJson.addProperty("mobile", user.getMobile());
             userJson.addProperty("role", user.getRole());
             
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");

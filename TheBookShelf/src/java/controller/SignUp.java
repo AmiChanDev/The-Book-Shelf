@@ -19,35 +19,36 @@ import model.Util;
 
 @WebServlet("/SignUp")
 public class SignUp extends HttpServlet {
-
+    
     private static class Registration {
-
+        
         String firstName;
         String lastName;
         String email;
+        String mobile;
         String password;
     }
-
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        
         Gson gson = new Gson();
         BufferedReader reader = request.getReader();
         Registration reg = gson.fromJson(reader, Registration.class);
-
+        
         JsonObject res = new JsonObject();
-
+        
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = null;
-
+        
         try {
             tx = session.beginTransaction();
-
+            
             Criteria criteria = session.createCriteria(User.class);
             criteria.add(Restrictions.eq("email", reg.email));
             User existing = (User) criteria.uniqueResult();
-
+            
             if (existing != null) {
                 res.addProperty("success", false);
                 res.addProperty("message", "Email already registered.");
@@ -55,11 +56,12 @@ public class SignUp extends HttpServlet {
                 User user = new User();
                 user.setName(reg.firstName + " " + reg.lastName);
                 user.setEmail(reg.email);
+                user.setMobile(reg.mobile);
                 user.setPassword(reg.password);
                 String generatedCode = Util.generateCode();
                 user.setVerification(generatedCode);
                 user.setRole("USER");
-
+                
                 session.save(user);
                 tx.commit();
 
@@ -72,11 +74,11 @@ public class SignUp extends HttpServlet {
                 }).start();
                 HttpSession httpSession = request.getSession();
                 httpSession.setAttribute("email", reg.email);
-
+                
                 res.addProperty("success", true);
                 res.addProperty("redirect", "verify-account.html");
             }
-
+            
         } catch (Exception e) {
             if (tx != null) {
                 tx.rollback();
@@ -87,7 +89,7 @@ public class SignUp extends HttpServlet {
         } finally {
             session.close();
         }
-
+        
         response.setContentType("application/json");
         response.getWriter().write(res.toString());
     }
