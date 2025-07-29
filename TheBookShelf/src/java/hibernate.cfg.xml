@@ -14,6 +14,7 @@
         <mapping class="hibernate.City" />        
         <mapping class="hibernate.Book" />        
         <mapping class="hibernate.Genre" />        
+        <mapping class="hibernate.CartItem" />        
     </session-factory>
 </hibernate-configuration>
 

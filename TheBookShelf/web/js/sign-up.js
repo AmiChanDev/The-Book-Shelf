@@ -15,6 +15,18 @@ async function handleSignUp() {
         return;
     }
 
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        popup.warning({title: "Warning", message: "Invalid email format"});
+        return;
+    }
+
+    const mobileRegex = /^\d{10}$/; 
+    if (!mobileRegex.test(mobile)) {
+        popup.warning({title: "Warning", message: "Invalid mobile number"});
+        return;
+    }
+
     fetch("SignUp", {
         method: "POST",
         headers: {

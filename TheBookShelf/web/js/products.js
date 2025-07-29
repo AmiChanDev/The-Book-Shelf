@@ -42,6 +42,10 @@ async function fetchAndDisplayBooks(filters = {}) {
             title.classList.add("card-title", "text-center");
             title.textContent = book.title;
 
+            const bookId = document.createElement("div");
+            bookId.classList.add("hidden");
+            bookId.setAttribute("data-book-id", book.id);
+
             const author = document.createElement("p");
             author.innerHTML = `<strong>Author:</strong> ${book.authorName}`;
 
@@ -62,13 +66,15 @@ async function fetchAndDisplayBooks(filters = {}) {
                 addToCart(book.id);
             };
 
-
-            body.append(title, author, isbn, genre, price, btn);
+            body.append(title, author, isbn, genre, price, btn, bookId);
             card.append(img, body);
             cardLink.appendChild(card);
             cardCol.appendChild(cardLink);
+
+
             container.appendChild(cardCol);
         });
+
 
 
     } catch (err) {
@@ -124,8 +130,4 @@ function clearSearch() {
     document.getElementById("searchGenre").selectedIndex = 0;
 
     fetchAndDisplayBooks();
-}
-
-function addToCart(bookId) {
-    alert(`Book with ID ${bookId} added to cart!`);
 }

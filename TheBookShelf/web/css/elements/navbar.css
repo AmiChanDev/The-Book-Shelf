@@ -20,7 +20,6 @@
 
 .navbar-nav .nav-link {
     color: #ffffff !important;
-    font-weight: 500;
     padding: 0.4rem 1.2rem; /* Reduced padding for nav links */
     border-radius: 6px;
     transition: background-color 0.3s ease, transform 0.3s ease, color 0.3s ease;
@@ -44,7 +43,6 @@
 
 .nav-tabs .nav-link {
     color: #4b5563;
-    font-weight: 500;
     padding: 0.75rem 1.5rem;
     border: none;
     border-radius: 6px 6px 0 0;
@@ -61,6 +59,16 @@
     background-color: #007bff;
     color: #ffffff !important;
     border-bottom: 2px solid #007bff;
+}
+
+#logoutBtn.btn-outline-danger {
+    color: #ffffff; /* Custom text color, e.g., white to match navbar */
+    border-color: #ffffff;
+}
+#logoutBtn.btn-outline-danger:hover {
+    color: #ffffff;
+    background-color: #343a40; /* Matches navbar hover */
+    border-color: #343a40;
 }
 
 /* Responsive Design - Tablet */
