@@ -15,19 +15,18 @@
         <link rel="stylesheet" href="css/notification.css" />
 
     </head>
-    <body>
+    <body class="d-flex flex-column min-vh-100">
         <header>
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container">
                     <a class="navbar-brand d-flex align-items-center" href="index.html">
                         <img src="images/logo.png" alt="Logo" width="40" height="40" class="me-2">
-                        <span class="fs-4 fw-bold"><h3>The Book Shelf</h3></span>
+                        <span class="fs-4 fw-bold">The Book Shelf</span>
                     </a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
-
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav ms-auto">
                             <li class="nav-item">
@@ -40,7 +39,7 @@
                                 <a class="nav-link" href="cart.html">Cart</a>
                             </li>
                             <li class="nav-item">
-                                <button class="btn btn-danger btn-outline-danger ms-lg-2" id="logoutBtn" onclick="signOut()">Logout</button>
+                                <button class="btn btn-danger btn-outline-danger" id="logoutBtn" onclick="signOut()">Logout</button>
                             </li>
                         </ul>
                     </div>
@@ -48,7 +47,7 @@
             </nav>
         </header>
 
-        <div class="container mt-5">
+        <div class="container mt-4">
             <h1 class="mb-4">The Book Shelf - My Account</h1>
             <div class="media-body">
                 <h5 class="title mb-0">Hello <b id="username"></b></h5>
@@ -263,6 +262,11 @@
             <script src="js/notification.js"></script>
             <script src="js/my-account.js"></script>
             <script src="js/sign-out.js"></script>
-            <footer><p>© 2025 The Book Shelf. All rights reserved.</p></footer>
+
+            <footer class="text-center footer">
+                <p class="mb-0">&copy; 2025 The Book Shelf. All rights reserved.</p>
+            </footer>
+
+            <script src="js/scroll-footer.js"></script>
     </body>
 </html>

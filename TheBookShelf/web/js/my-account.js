@@ -153,7 +153,7 @@ async function loadUserBooks() {
 
         books.forEach(book => {
             const cardCol = document.createElement("div");
-            cardCol.classList.add("col-md-4", "mb-4");
+//            cardCol.classList.add("col-md-4", "mb-4");
 
             const card = document.createElement("div");
             card.classList.add("card", "h-100");
@@ -176,7 +176,7 @@ async function loadUserBooks() {
 
             const cardPrice = document.createElement("p");
             cardPrice.classList.add("fw-bold");
-            cardPrice.textContent = `Price: $${book.price.toFixed(2)}`;
+            cardPrice.textContent = `Price: ${book.price.toFixed(2)} LKR`;
 
             const cardGenres = document.createElement("p");
             cardGenres.innerHTML = `<strong>Genres:</strong> ${book.genres.map(g => g.name).join(", ")}`;

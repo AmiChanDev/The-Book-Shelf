@@ -1,3 +1,8 @@
+function addToCartSingle() {
+    let bookId = document.getElementById("bookId").textContent;
+    addToCart(bookId);
+}
+
 async function addToCart(bookIdNum) {
     const popup = Notification();
     const quantity = 1;

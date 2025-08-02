@@ -105,8 +105,8 @@ html, body {
 
 .product-container .btn-outline-secondary:hover {
     background-color: #f3f4f6;
-    border-color: #9ca3af;
-    transform: translateY(-2px);
+    border-color: #ff0033;
+    transform: translateY(-3px);
 }
 /* Responsive Design - Tablet */
 @media (max-width: 768px) {

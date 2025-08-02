@@ -28,19 +28,19 @@ async function fetchBookDetails(id) {
 
 function displayBookDetails(book) {
     document.getElementById("productImage").src = book.imagePath || "images/default.jpg";
+    document.getElementById("bookId").textContent = book.id;
     document.getElementById("productImage").alt = book.title;
     document.getElementById("productTitle").textContent = book.title;
     document.getElementById("productAuthor").textContent = book.authorName;
     document.getElementById("productISBN").textContent = book.isbn;
     document.getElementById("productGenres").textContent = book.genres.map(g => g.name).join(", ");
     document.getElementById("productDescription").textContent = book.description || "No description available.";
-    document.getElementById("productPrice").textContent = `$${book.price.toFixed(2)}`;
+    document.getElementById("productPrice").textContent = `${book.price.toFixed(2)} LKR`;
 
     document.getElementById("addToCartBtn").onclick = () => addToCart(book.id);
-    document.getElementById("addToWishlistBtn").onclick = () => addToWishlist(book.id);
+//    document.getElementById("addToWishlistBtn").onclick = () => addToWishlist(book.id);
 }
 
-// Stub functions
 function addToCart(bookId) {
     alert(`Book ${bookId} added to cart.`);
 }
