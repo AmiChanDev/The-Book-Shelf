@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author AmiChan
  */
-@WebFilter(urlPatterns = {"/my-account.html"})
+@WebFilter(urlPatterns = {"/my-account.html", "/cart.html"})
 @WebServlet(name = "SignInCheckFilter", urlPatterns = {"/SignInCheckFilter"})
 public class SignInCheckFilter implements Filter {
 

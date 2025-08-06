@@ -1,99 +1,79 @@
-document.addEventListener("DOMContentLoaded", async () => {
-    await loadCart();
-    checkOut();
+document.addEventListener("DOMContentLoaded", function () {
+    loadCart();
+    document.getElementById('checkoutBtn').addEventListener('click', handleCheckout);
 });
 
-async function loadCart() {
-    try {
-        const response = await fetch("GetCart");  
-        if (!response.ok)
-            throw new Error("Failed to load cart");
+function loadCart() {
+    fetch('/TheBookShelf/LoadCart')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    if (data.cartItems && data.cartItems.length > 0) {
+                        renderCartItems(data.cartItems);
 
-        const cartData = await response.json();
-        displayCart(cartData);
-    } catch (err) {
-        console.error("Error loading cart:", err);
+                    } else {
+                        showNotification("Your cart is empty.", "info");
+                    }
+                } else {
+                    showNotification(data.message || "Failed to load cart.", "warning");
+                }
+            })
+            .catch(err => {
+                console.error("Error loading cart:", err);
+                showNotification("An error occurred while loading cart.", "error");
+            });
+}
+
+function renderCartItems(cartItems) {
+    const cartItemsContainer = document.getElementById('cartItems');
+    cartItemsContainer.innerHTML = '';
+
+    let totalItems = 0;
+    let totalPrice = 0;
+
+    cartItems.forEach(item => {
+        if (!item.bookTitle || isNaN(item.price) || isNaN(item.quantity))
+            return;
+
+        const quantity = item.quantity;
+        const price = item.price;
+        const total = price * quantity;
+        const imageUrl = item.imagePath ? item.imagePath : 'images/placeholder.png';
+
+        totalItems += quantity;
+        totalPrice += total;
+
+        const cartItem = document.createElement('li');
+        cartItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+
+        cartItem.innerHTML = `
+            <div class="d-flex align-items-center">
+                <img src="${imageUrl}" alt="${item.bookTitle}" class="me-3" style="width: 60px; height: 90px; object-fit: cover;">
+                <div>
+                    <div class="fw-bold">${item.bookTitle}</div>
+                   <div>
+    Quantity: <input type="number" class="form-control form-control-sm quantity-input" data-title="${item.bookTitle}" value="${quantity}" min="1" style="width: 70px; display: inline-block;">
+                </div>
+                </div>
+            </div>
+            <div class="text-end">
+                <span class="fw-semibold">${total.toFixed(2)} LKR</span>
+            </div>
+        `;
+
+        cartItemsContainer.appendChild(cartItem);
+    });
+
+    document.getElementById('totalItems').textContent = totalItems;
+    document.getElementById('totalPrice').textContent = totalPrice.toFixed(2);
+}
+
+function handleCheckout() {
+    const totalItems = parseInt(document.getElementById('totalItems').textContent);
+    if (totalItems === 0) {
+        showNotification("Your cart is empty!", "warning");
+    } else {
+        window.location.href = "checkout.html";
     }
 }
 
-function displayCart(cartItems) {
-    const cartContainer = document.getElementById("cartItems");
-    const totalItems = document.getElementById("totalItems");
-    const totalPrice = document.getElementById("totalPrice");
-
-    cartContainer.innerHTML = "";
-    let total = 0;
-    let count = 0;
-
-    cartItems.forEach(item => {
-        const itemTotal = item.price * item.quantity;
-        total += itemTotal;
-        count += item.quantity;
-
-        const itemElement = document.createElement("div");
-        itemElement.className = "list-group-item d-flex justify-content-between align-items-center flex-wrap";
-
-        itemElement.innerHTML = `
-            <div class="d-flex align-items-center">
-                <img src="${item.image}" alt="${item.title}" class="me-3" style="width: 60px; height: 90px; object-fit: cover;">
-                <div>
-                    <h5 class="mb-1">${item.title}</h5>
-                    <p class="mb-1 text-muted">Price: $${item.price.toFixed(2)}</p>
-                    <div class="input-group input-group-sm w-auto">
-                        <span class="input-group-text">Qty</span>
-                        <input type="number" class="form-control quantity-input" value="${item.quantity}" min="1" data-id="${item.bookId}">
-                        <button class="btn btn-outline-danger btn-sm ms-2 remove-btn" data-id="${item.bookId}"><i class="fas fa-trash-alt"></i></button>
-                    </div>
-                </div>
-            </div>
-        `;
-        cartContainer.appendChild(itemElement);
-    });
-
-    totalItems.textContent = count;
-    totalPrice.textContent = total.toFixed(2);
-
-    quantityListeners();
-    removeListeners();
-}
-
-function quantityListeners() {
-    document.querySelectorAll(".quantity-input").forEach(input => {
-        input.addEventListener("change", async () => {
-            const id = input.dataset.id;
-            const qty = parseInt(input.value);
-            if (qty <= 0)
-                return;
-
-            await fetch(`UpdateCart`, {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({bookId: id, quantity: qty})
-            });
-
-            await loadCart(); // refresh display
-        });
-    });
-}
-
-function removeListeners() {
-    document.querySelectorAll(".remove-btn").forEach(btn => {
-        btn.addEventListener("click", async () => {
-            const id = btn.dataset.id;
-
-            await fetch(`RemoveFromCart`, {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({bookId: id})
-            });
-
-            await loadCart(); // refresh display
-        });
-    });
-}
-
-function checkOut() {
-    document.getElementById("checkoutBtn").addEventListener("click", () => {
-        window.location.href = "checkout.html"; 
-    });
-}

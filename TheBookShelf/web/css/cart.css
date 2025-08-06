@@ -158,3 +158,21 @@ h2.text-center {
         margin-top: 20px;
     }
 }
+/* Product title */
+#cartItems .fw-bold {
+    font-size: 1.4rem; /* Increased from default */
+    color: #2c3e50;
+}
+
+/* Quantity label and input */
+#cartItems .quantity-label,
+#cartItems .form-control {
+    font-size: 1.2rem;
+}
+
+/* Total price per item */
+#cartItems .item-total {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #28a745;
+}

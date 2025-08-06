@@ -12,7 +12,6 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.*;
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -42,7 +41,7 @@ public class UploadBook extends HttpServlet {
 
             String title = request.getParameter("title");
             String isbn = request.getParameter("isbn");
-            BigDecimal price = new BigDecimal(request.getParameter("price"));
+            Double price = Double.valueOf(request.getParameter("price"));
             int stock = Integer.parseInt(request.getParameter("stock"));
             String description = request.getParameter("description");
             String genreId = request.getParameter("genreId");
@@ -52,6 +51,11 @@ public class UploadBook extends HttpServlet {
             if (authorName == null || authorName.trim().isEmpty()) {
                 out.print("Author name cannot be empty.");
                 return;
+            }
+
+            if (isbn != null && isbn.matches("\\d+")) {
+                String reversedIsbn = new StringBuilder(isbn).reverse().toString();
+                System.out.println("Reversed ISBN: " + reversedIsbn);
             }
 
             Criteria criteria = session.createCriteria(Book.class);

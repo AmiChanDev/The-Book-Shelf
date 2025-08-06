@@ -21,7 +21,7 @@ public class Book implements Serializable {
 
     private String isbn;
 
-    private BigDecimal price;
+    private Double price;
 
     private int stock;
 
@@ -73,11 +73,11 @@ public class Book implements Serializable {
         this.isbn = isbn;
     }
 
-    public BigDecimal getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
