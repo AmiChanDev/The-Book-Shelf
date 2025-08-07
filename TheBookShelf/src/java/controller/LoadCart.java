@@ -1,7 +1,6 @@
 package controller;
 
 import model.HibernateUtil;
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import hibernate.CartItem;
@@ -58,6 +57,7 @@ public class LoadCart extends HttpServlet {
 
                 for (CartItem cartItem : cartItems) {
                     JsonObject itemJson = new JsonObject();
+                    itemJson.addProperty("bookId", cartItem.getBook().getId());
                     itemJson.addProperty("bookTitle", cartItem.getBook().getTitle());
                     itemJson.addProperty("price", cartItem.getBook().getPrice());
                     itemJson.addProperty("quantity", cartItem.getQuantity());

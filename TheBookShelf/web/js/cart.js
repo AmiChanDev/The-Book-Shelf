@@ -3,6 +3,11 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById('checkoutBtn').addEventListener('click', handleCheckout);
 });
 
+let popup = Notification();
+let popupDialog = Notification({
+    position: 'center'
+});
+
 function loadCart() {
     fetch('/TheBookShelf/LoadCart')
             .then(response => response.json())
@@ -10,21 +15,24 @@ function loadCart() {
                 if (data.success) {
                     if (data.cartItems && data.cartItems.length > 0) {
                         renderCartItems(data.cartItems);
-
                     } else {
-                        showNotification("Your cart is empty.", "info");
+                        const cartItemsContainer = document.getElementById('cartItems');
+                        cartItemsContainer.innerHTML = '';
+                        updateSummary(0, 0);
+                        popup.info({title: "Info", message: "Your cart is empty."});
                     }
                 } else {
-                    showNotification(data.message || "Failed to load cart.", "warning");
+                    popup.warning({title: "Warning", message: data.message || "Failed to load cart."});
                 }
             })
             .catch(err => {
                 console.error("Error loading cart:", err);
-                showNotification("An error occurred while loading cart.", "error");
+                popup.error({title: "Error", message: "An error occurred while loading cart."});
             });
 }
 
 function renderCartItems(cartItems) {
+    console.log(cartItems);
     const cartItemsContainer = document.getElementById('cartItems');
     cartItemsContainer.innerHTML = '';
 
@@ -51,19 +59,72 @@ function renderCartItems(cartItems) {
                 <img src="${imageUrl}" alt="${item.bookTitle}" class="me-3" style="width: 60px; height: 90px; object-fit: cover;">
                 <div>
                     <div class="fw-bold">${item.bookTitle}</div>
-                   <div>
-    Quantity: <input type="number" class="form-control form-control-sm quantity-input" data-title="${item.bookTitle}" value="${quantity}" min="1" style="width: 70px; display: inline-block;">
-                </div>
+                    <div>
+                        Quantity:
+                        <input type="number"
+                               class="form-control form-control-sm quantity-input"
+                               data-book-id="${item.bookId}"
+                               value="${quantity}"
+                               min="1"
+                               style="width: 70px; display: inline-block;" 
+                               onkeydown="return false;">
+                    </div>
                 </div>
             </div>
             <div class="text-end">
-                <span class="fw-semibold">${total.toFixed(2)} LKR</span>
+                <span class="fw-semibold item-total">${total.toFixed(2)} LKR</span>
+                <button class="btn btn-danger btn-sm ms-2" data-book-id="${item.bookId}" onclick="removeFromCart(${item.bookId})">
+                    <i class="fas fa-trash-alt"></i></button>
             </div>
         `;
 
         cartItemsContainer.appendChild(cartItem);
     });
 
+    updateSummary(totalItems, totalPrice);
+
+    document.querySelectorAll('.quantity-input').forEach(input => {
+        input.addEventListener('change', function () {
+            const newQuantity = parseInt(input.value);
+            const bookId = parseInt(input.dataset.bookId);
+
+            if (isNaN(newQuantity) || newQuantity < 1) {
+                input.value = 1;
+                return;
+            }
+
+            updateQuantity(bookId, newQuantity);
+        });
+    });
+}
+
+function updateQuantity(bookId, quantity) {
+    fetch('/TheBookShelf/UpdateCartQuantity', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            bookId: bookId,
+            quantity: quantity
+        })
+    })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    loadCart();
+                    popup.info({title: "Info", message: "Quantity updated."});
+                } else {
+                    popup.warning({title: "Warning", message: data.message || "Failed to update cart."});
+                }
+            })
+            .catch(err => {
+                console.error("Error updating cart quantity:", err);
+                popup.error({title: "Error", message: "An error occurred while updating quantity."});
+            });
+}
+
+function updateSummary(totalItems, totalPrice) {
     document.getElementById('totalItems').textContent = totalItems;
     document.getElementById('totalPrice').textContent = totalPrice.toFixed(2);
 }
@@ -71,9 +132,47 @@ function renderCartItems(cartItems) {
 function handleCheckout() {
     const totalItems = parseInt(document.getElementById('totalItems').textContent);
     if (totalItems === 0) {
-        showNotification("Your cart is empty!", "warning");
+        popup.warning({title: "Warning", message: "Your cart is empty!"});
     } else {
         window.location.href = "checkout.html";
     }
 }
 
+function removeFromCart(bookId) {
+
+    popupDialog.dialog({
+        title: "Remove Confirmation",
+        message: "Are you sure you want to remove this item?",
+        callback: function (response) {
+            if (response === 'ok') {
+                console.log("User confirmed removing item from cart");
+                fetch('/TheBookShelf/RemoveCartItem', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({bookId: bookId})
+                })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                popup.success({title: "Success", message: data.message});
+                                loadCart();
+                            } else {
+                                popup.error({title: "Error", message: data.message});
+                            }
+                        })
+                        .catch(err => {
+                            console.error("Error removing item from cart:", err);
+                            popup.error({title: "Error", message: "An error occurred while removing the item."});
+                        });
+            } else if (response === 'cancel') {
+                console.log("User canceled  removing item from cart");
+            }
+        },
+        validFunc: function () {
+            return true;
+        }
+    });
+
+}
