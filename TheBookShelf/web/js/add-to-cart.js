@@ -25,6 +25,9 @@ async function addToCart(bookIdNum) {
 
         if (result.success) {
             popup.success({title: "Success", message: "Item Added To Cart"});
+            setTimeout(() => {
+                location.reload();
+            }, 2000);
         } else {
             throw new Error(result.message || "Failed to add the book to the cart");
         }

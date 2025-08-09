@@ -4,8 +4,16 @@ document.addEventListener("DOMContentLoaded", () => {
         showError("No book ID provided.");
         return;
     }
-
     fetchBookDetails(bookId);
+});
+
+document.querySelectorAll('a[href^="products.html"]').forEach(link => {
+    link.addEventListener('click', e => {
+        if (link.href === window.location.href) {
+            e.preventDefault();
+            window.location.reload();
+        }
+    });
 });
 
 function getBookIdFromURL() {

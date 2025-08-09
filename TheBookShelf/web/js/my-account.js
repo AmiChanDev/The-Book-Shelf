@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         await loadGenres();
         await loadAccount();
         await loadUserBooks();
+        await loadPurchaseHistory();
         setupUpdateSelectListener();
     } catch (err) {
         console.error("Error loading page data:", err);
@@ -194,6 +195,8 @@ async function loadUserBooks() {
         list.innerHTML = `<div class="col-12"><div class="alert alert-danger" role="alert">${error.message}</div></div>`;
     }
 }
+
+
 
 
 // Functions
@@ -493,6 +496,105 @@ async function uploadBook() {
     });
 }
 
+async function loadPurchaseHistory() {
+    try {
+        const response = await fetch("GetPurchaseHistory");
+        if (!response.ok)
+            throw new Error("Failed to fetch purchase history");
+        const history = await response.json();
+        const tbody = document.getElementById("orderHistoryBody");
+        if (!tbody)
+            return;
+        tbody.innerHTML = "";
+        if (history.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="3" class="text-center">No purchase history found.</td></tr>`;
+            return;
+        }
+        history.forEach(item => {
+            const tr = document.createElement("tr");
+
+            const tdId = document.createElement("td");
+            const a = document.createElement("a");
+            a.href = "#";
+            a.textContent = item.orderId;
+            a.addEventListener("click", async e => {
+                e.preventDefault();
+                await showOrderDetailsPopup(item.orderId);
+            });
+            tdId.appendChild(a);
+
+            const tdDate = document.createElement("td");
+            tdDate.textContent = item.orderDate;
+
+            const tdTotal = document.createElement("td");
+            tdTotal.textContent = item.totalAmount.toFixed(2);
+
+            tr.append(tdId, tdDate, tdTotal);
+            tbody.appendChild(tr);
+        });
+    } catch (error) {
+        const tbody = document.getElementById("orderHistoryBody");
+        if (tbody) {
+            tbody.innerHTML = `<tr><td colspan="3" class="text-danger text-center">Failed to load purchase history.</td></tr>`;
+        }
+        console.error(error);
+    }
+}
+async function showOrderDetailsPopup(orderId) {
+    try {
+        const response = await fetch(`GetOrderDetails?orderId=${orderId}`);
+        if (!response.ok)
+            throw new Error("Failed to fetch order details");
+        const details = await response.json();
+
+        const shippingFee = 1000;
+        let total = 0;
+
+        let html = `<h4>Order Details (ID: ${orderId})</h4>
+<h6>Shipping fee: ${shippingFee} LKR</h6>`;
+        html += `<table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Book ID</th>
+                            <th>Quantity</th>
+                            <th>Price (LKR)</th>
+                        </tr>
+                    </thead>
+                    <tbody>`;
+
+        details.forEach(item => {
+            html += `<tr>
+                        <td>${item.bookId}</td>
+                        <td>${item.quantity}</td>
+                        <td>${item.price.toFixed(2)}</td>
+                    </tr>`;
+            total += item.price * item.quantity;
+        });
+
+        html += `</tbody></table>`;
+
+        html += `<h6>Total Amount (including shipping): ${(total + shippingFee).toFixed(2)} LKR</h6>`;
+
+        const width = 600;
+        const height = 400;
+        const left = window.screenX + (window.outerWidth - width) / 2;
+        const top = window.screenY + (window.outerHeight - height) / 2;
+
+        const popup = window.open(
+                "",
+                "OrderDetails",
+                `width=${width},height=${height},left=${left},top=${top},scrollbars=yes`
+                );
+
+        popup.document.write(`<html><head><title>Order Details</title>
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"></head>
+            <body class="p-3">${html}</body></html>`);
+        popup.document.close();
+    } catch (error) {
+        alert("Could not load order details.");
+        console.error(error);
+    }
+}
 
 // Clear Functions
 function clearForms() {

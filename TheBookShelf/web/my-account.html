@@ -96,8 +96,20 @@
 
                 <!-- Purchase History Section -->
                 <div class="tab-pane fade" id="nav-purchase-history" role="tabpanel">
-                    <h2>Purchase History</h2><hr>
-                    <p>Coming soon...</p>
+                    <h2>Purchase History</h2>
+                    <hr>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Order Date</th>
+                                <th>Total Amount (LKR)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orderHistoryBody">
+                            <!-- Dynamic rows will be inserted here by JS -->
+                        </tbody>
+                    </table>
                 </div>
 
                 <!-- Product Listing Section -->
