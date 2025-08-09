@@ -25,7 +25,7 @@ public class LoadCheckout extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
- 
+
         HttpSession session = request.getSession(false);
         if (session != null) {
             System.out.println("Session Attributes:");
@@ -33,7 +33,6 @@ public class LoadCheckout extends HttpServlet {
             while (attrNames.hasMoreElements()) {
                 String attrName = attrNames.nextElement();
                 Object attrValue = session.getAttribute(attrName);
-//                System.out.println(attrName + " = " + attrValue);
             }
         } else {
             System.out.println("No active session found.");
@@ -108,7 +107,7 @@ public class LoadCheckout extends HttpServlet {
             json.addProperty("message", "Failed to load checkout data.");
             out.print(json.toString());
         } finally {
-            if (hibSession != null) {
+            if (hibSession != null && hibSession.isOpen()) {
                 hibSession.close();
             }
         }

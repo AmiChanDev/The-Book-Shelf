@@ -14,10 +14,6 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
-/**
- *
- * @author AmiChan
- */
 @WebServlet("/GetUserBooks")
 public class GetUserBooks extends HttpServlet {
 
@@ -31,10 +27,11 @@ public class GetUserBooks extends HttpServlet {
 
         String authorName = (String) session.getAttribute("userName");
 
-        Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+        Session hibernateSession = null;
 
         try {
-//            System.out.println("Author Name: " + authorName); 
+            hibernateSession = HibernateUtil.getSessionFactory().openSession();
+
             Criteria criteria = hibernateSession.createCriteria(Book.class)
                     .add(Restrictions.eq("authorName", authorName));
 
@@ -42,7 +39,9 @@ public class GetUserBooks extends HttpServlet {
             response.setContentType("application/json");
             response.getWriter().write(new Gson().toJson(books));
         } finally {
-            hibernateSession.close();
+            if (hibernateSession != null && hibernateSession.isOpen()) {
+                hibernateSession.close();
+            }
         }
     }
 }

@@ -35,16 +35,27 @@ public class ChangePassword extends HttpServlet {
                 res.addProperty("status", false);
                 res.addProperty("message", "Incorrect current password.");
             } else {
-                Session hSession = HibernateUtil.getSessionFactory().openSession();
-                Transaction tx = hSession.beginTransaction();
-
-                user.setPassword(newPw);
-                hSession.update(user);
-                tx.commit();
-                hSession.close();
-
-                res.addProperty("status", true);
-                res.addProperty("message", "Password updated successfully.");
+                Session hSession = null;
+                Transaction tx = null;
+                try {
+                    hSession = HibernateUtil.getSessionFactory().openSession();
+                    tx = hSession.beginTransaction();
+                    user.setPassword(newPw);
+                    hSession.update(user);
+                    tx.commit();
+                    res.addProperty("status", true);
+                    res.addProperty("message", "Password updated successfully.");
+                } catch (Exception e) {
+                    if (tx != null) {
+                        tx.rollback();
+                    }
+                    res.addProperty("status", false);
+                    res.addProperty("message", "Failed to update password.");
+                } finally {
+                    if (hSession != null && hSession.isOpen()) {
+                        hSession.close();
+                    }
+                }
             }
         }
 

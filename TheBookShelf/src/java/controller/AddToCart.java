@@ -25,7 +25,6 @@ public class AddToCart extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         BufferedReader reader = request.getReader();
         StringBuilder sb = new StringBuilder();
         String line;
@@ -51,15 +50,18 @@ public class AddToCart extends HttpServlet {
 
         int userId = userObject.getId();
 
-        Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+        Session hibernateSession = null;
         Transaction tx = null;
 
         try {
+            hibernateSession = HibernateUtil.getSessionFactory().openSession();
             tx = hibernateSession.beginTransaction();
 
             Criteria criteria = hibernateSession.createCriteria(CartItem.class);
-            criteria.add(Restrictions.eq("user.id", userId));
-            criteria.add(Restrictions.eq("book.id", bookId));
+            criteria.createAlias("user", "u");
+            criteria.createAlias("book", "b");
+            criteria.add(Restrictions.eq("u.id", userId));
+            criteria.add(Restrictions.eq("b.id", bookId));
 
             List<CartItem> existingItems = criteria.list();
 
@@ -67,31 +69,23 @@ public class AddToCart extends HttpServlet {
                 CartItem existingCartItem = existingItems.get(0);
                 existingCartItem.setQuantity(existingCartItem.getQuantity() + quantity);
                 hibernateSession.update(existingCartItem);
-
-                // Optional: delete any duplicate entries
+                hibernateSession.flush();
                 for (int i = 1; i < existingItems.size(); i++) {
                     hibernateSession.delete(existingItems.get(i));
                 }
-
+                hibernateSession.flush();
             } else {
                 User user = (User) hibernateSession.get(User.class, userId);
                 Book book = (Book) hibernateSession.get(Book.class, bookId);
-
                 if (user == null || book == null) {
-                    JsonObject jsonResponse = new JsonObject();
-                    jsonResponse.addProperty("success", false);
-                    jsonResponse.addProperty("message", "Invalid user or book.");
-                    response.setContentType("application/json");
-                    response.getWriter().write(new Gson().toJson(jsonResponse));
                     return;
                 }
-
                 CartItem cartItem = new CartItem();
                 cartItem.setUser(user);
                 cartItem.setBook(book);
                 cartItem.setQuantity(quantity);
-
                 hibernateSession.save(cartItem);
+                hibernateSession.flush();
             }
 
             tx.commit();
@@ -101,19 +95,20 @@ public class AddToCart extends HttpServlet {
             jsonResponse.addProperty("message", "Book added to cart.");
             response.setContentType("application/json");
             response.getWriter().write(new Gson().toJson(jsonResponse));
-
         } catch (Exception e) {
             if (tx != null) {
                 tx.rollback();
             }
             e.printStackTrace();
-
             JsonObject jsonResponse = new JsonObject();
             jsonResponse.addProperty("success", false);
             jsonResponse.addProperty("message", "Failed to add book to cart.");
             response.setContentType("application/json");
             response.getWriter().write(new Gson().toJson(jsonResponse));
+        } finally {
+            if (hibernateSession != null && hibernateSession.isOpen()) {
+                hibernateSession.close();
+            }
         }
-
     }
 }

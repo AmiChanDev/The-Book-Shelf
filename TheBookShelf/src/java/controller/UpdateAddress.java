@@ -11,7 +11,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import model.HibernateUtil;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 @WebServlet(name = "UpdateAddress", urlPatterns = {"/UpdateAddress"})
@@ -24,6 +23,9 @@ public class UpdateAddress extends HttpServlet {
         Gson gson = new Gson();
         JsonObject jsonResponse = new JsonObject();
 
+        Session session = null;
+        Transaction tx = null;
+
         try (BufferedReader reader = request.getReader()) {
             JsonObject body = gson.fromJson(reader, JsonObject.class);
 
@@ -32,9 +34,8 @@ public class UpdateAddress extends HttpServlet {
             String zipCode = body.get("zip_code").getAsString();
             int cityId = body.get("city_id").getAsInt();
 
-            SessionFactory factory = HibernateUtil.getSessionFactory();
-            Session session = factory.openSession();
-            Transaction tx = session.beginTransaction();
+            session = HibernateUtil.getSessionFactory().openSession();
+            tx = session.beginTransaction();
 
             Address address = (Address) session.get(Address.class, id);
             if (address != null) {
@@ -57,14 +58,20 @@ public class UpdateAddress extends HttpServlet {
                 jsonResponse.addProperty("status", false);
                 jsonResponse.addProperty("message", "Address not found.");
             }
-
-            session.close();
         } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
             jsonResponse.addProperty("status", false);
             jsonResponse.addProperty("message", "Error: " + e.getMessage());
+        } finally {
+             if (session != null && session.isOpen()) {
+                session.close();
+            }
         }
 
         response.setContentType("application/json");
         response.getWriter().write(jsonResponse.toString());
     }
+
 }

@@ -38,7 +38,7 @@ public class GetCities extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            if (hibSession != null) {
+            if (hibSession != null && hibSession.isOpen()) {
                 hibSession.close();
             }
         }

@@ -40,9 +40,10 @@ public class GetSingleBook extends HttpServlet {
             return;
         }
 
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = null;
 
         try {
+            session = HibernateUtil.getSessionFactory().openSession();
             Criteria criteria = session.createCriteria(Book.class);
             criteria.add(Restrictions.eq("id", bookId));
             Book book = (Book) criteria.uniqueResult();
@@ -60,7 +61,9 @@ public class GetSingleBook extends HttpServlet {
             res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             out.write("{\"error\":\"" + e.getMessage() + "\"}");
         } finally {
-            session.close();
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
         }
     }
 }

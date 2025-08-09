@@ -59,12 +59,12 @@ public class DeleteAddress extends HttpServlet {
                 result.addProperty("success", false);
                 result.addProperty("message", "Failed to delete address.");
             } finally {
-                if (hibSession != null) {
+                if (hibSession != null && hibSession.isOpen()) {
                     hibSession.close();
                 }
+
             }
         }
-
 
         response.setContentType("application/json");
         response.getWriter().write(result.toString());

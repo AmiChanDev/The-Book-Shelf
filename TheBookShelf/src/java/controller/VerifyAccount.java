@@ -28,7 +28,6 @@ public class VerifyAccount extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         Gson gson = new Gson();
-        
         JsonObject responseObject = new JsonObject();
         responseObject.addProperty("status", false);
 
@@ -40,47 +39,53 @@ public class VerifyAccount extends HttpServlet {
 
             String email = ses.getAttribute("email").toString();
 
-            
             JsonObject userCode = gson.fromJson(request.getReader(), JsonObject.class);
-
             String verificationCode = userCode.get("verificationcode").getAsString();
- 
-            Session s = HibernateUtil.getSessionFactory().openSession();
-            
-            Criteria c1 = s.createCriteria(User.class);
-            
-            Criterion crt1 = Restrictions.eq("email",email);
-            Criterion crt2 = Restrictions.eq("verification",verificationCode);
-            
-            c1.add(crt1);
-            c1.add(crt2);
-            
-            if(c1.list().isEmpty()){
-                responseObject.addProperty("message", "Invalid Verification Code");
-            }else{
-                
-               User user = (User)c1.list().get(0);
-               
-               user.setVerification("verified");
-               
-               s.update(user);
-               s.beginTransaction().commit();
-               s.close();
-               
-               ses.setAttribute("user", user);
-               
-               responseObject.addProperty("status",true);
-               responseObject.addProperty("message","Verification Successs !");
-               
-                
+
+            Session s = null;
+            org.hibernate.Transaction tx = null;
+
+            try {
+                s = HibernateUtil.getSessionFactory().openSession();
+
+                Criteria c1 = s.createCriteria(User.class);
+                c1.add(Restrictions.eq("email", email));
+                c1.add(Restrictions.eq("verification", verificationCode));
+
+                @SuppressWarnings("unchecked")
+                java.util.List<User> userList = c1.list();
+
+                if (userList.isEmpty()) {
+                    responseObject.addProperty("message", "Invalid Verification Code");
+                } else {
+                    User user = userList.get(0);
+
+                    tx = s.beginTransaction();
+                    user.setVerification("verified");
+                    s.update(user);
+                    tx.commit();
+
+                    ses.setAttribute("user", user);
+
+                    responseObject.addProperty("status", true);
+                    responseObject.addProperty("message", "Verification Success!");
+                }
+            } catch (Exception e) {
+                if (tx != null) {
+                    tx.rollback();
+                }
+                e.printStackTrace();
+                responseObject.addProperty("message", "Server error.");
+            } finally {
+                if (s != null && s.isOpen()) {
+                    s.close();
+                }
             }
-               
         }
-        
+
         String responseText = gson.toJson(responseObject);
         response.setContentType("application/json");
         response.getWriter().write(responseText);
-
     }
 
 }

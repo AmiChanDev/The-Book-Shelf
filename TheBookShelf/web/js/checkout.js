@@ -83,22 +83,21 @@ async function loadOrderSummary() {
         });
 
         tbody.innerHTML += `
-      <tr class="order-subtotal">
-        <td>Subtotal</td>
-        <td>Rs. ${data.subtotal.toLocaleString()}</td>
-      </tr>
-      <tr class="order-shipping">
-        <td colspan="2">
-          <div class="shipping-amount">
-            <span class="title">Shipping Charges</span>
-            <span class="amount">Rs. ${data.shipping.toLocaleString()}</span>
-          </div>
-        </td>
-      </tr>
-      <tr class="order-total">
-        <td>Total</td>
-        <td class="order-total-amount">Rs. ${data.total.toLocaleString()}</td>
-      </tr>
+<tr class="order-subtotal">
+    <td>Subtotal</td>
+    <td>Rs. ${data.subtotal.toLocaleString()}</td>
+</tr>
+<tr class="order-shipping">
+    <td>Shipping Charges</td>
+    <td>
+        <span class="amount">Rs. ${data.shipping.toLocaleString()}</span>
+    </td>
+</tr>
+<tr class="order-total">
+    <td>Total</td>
+    <td class="order-total-amount">Rs. ${data.total.toLocaleString()}</td>
+</tr>
+
     `;
     } catch (err) {
         console.error(err);

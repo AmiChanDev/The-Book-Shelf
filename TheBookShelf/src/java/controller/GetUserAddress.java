@@ -7,6 +7,7 @@ import hibernate.User;
 import model.HibernateUtil;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import javax.servlet.ServletException;
@@ -51,6 +52,7 @@ public class GetUserAddress extends HttpServlet {
 
             Criteria criteria = hibSession.createCriteria(Address.class);
             criteria.add(Restrictions.eq("user.id", userId));
+            criteria.addOrder(Order.desc("id"));
             criteria.setMaxResults(1);
             Address address = (Address) criteria.uniqueResult();
 
@@ -94,7 +96,7 @@ public class GetUserAddress extends HttpServlet {
             json.addProperty("message", "Failed to load address.");
             out.print(json.toString());
         } finally {
-            if (hibSession != null) {
+            if (hibSession != null && hibSession.isOpen()) {
                 hibSession.close();
             }
         }

@@ -31,9 +31,13 @@ public class RemoveCartItem extends HttpServlet {
             return;
         }
 
-        // Parse the bookId from the request
-        String jsonData = request.getReader().readLine();
-        int bookId = new Gson().fromJson(jsonData, JsonObject.class).get("bookId").getAsInt();
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = request.getReader().readLine()) != null) {
+            sb.append(line);
+        }
+        JsonObject jsonObject = new Gson().fromJson(sb.toString(), JsonObject.class);
+        int bookId = jsonObject.get("bookId").getAsInt();
 
         User user = (User) session.getAttribute("user");
         Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
@@ -41,7 +45,7 @@ public class RemoveCartItem extends HttpServlet {
 
         try {
             tx = hibernateSession.beginTransaction();
- 
+
             Criteria criteria = hibernateSession.createCriteria(CartItem.class);
             criteria.add(Restrictions.eq("user", user));
             criteria.add(Restrictions.eq("book.id", bookId));
@@ -49,7 +53,7 @@ public class RemoveCartItem extends HttpServlet {
             CartItem cartItem = (CartItem) criteria.uniqueResult();
 
             if (cartItem != null) {
-                hibernateSession.delete(cartItem);   
+                hibernateSession.delete(cartItem);
                 tx.commit();
                 res.addProperty("success", true);
                 res.addProperty("message", "Item removed from cart.");
@@ -72,4 +76,5 @@ public class RemoveCartItem extends HttpServlet {
         response.setContentType("application/json");
         response.getWriter().write(res.toString());
     }
+
 }

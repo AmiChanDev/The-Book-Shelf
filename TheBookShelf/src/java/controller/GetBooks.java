@@ -50,7 +50,9 @@ public class GetBooks extends HttpServlet {
             out.print(new Gson().toJson(books));
             out.flush();
         } finally {
-            session.close();
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
         }
     }
 }

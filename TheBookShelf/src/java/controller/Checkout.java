@@ -165,7 +165,7 @@ public class Checkout extends HttpServlet {
             jsonResponse.addProperty("success", false);
             jsonResponse.addProperty("message", "Internal server error: " + e.getMessage());
         } finally {
-            if (session != null) {
+            if (session != null && session.isOpen()) {
                 session.close();
             }
         }

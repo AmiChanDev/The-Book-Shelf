@@ -23,7 +23,7 @@ public class LoadCart extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        HttpSession httpSession = request.getSession(false); 
+        HttpSession httpSession = request.getSession(false);
         JsonObject res = new JsonObject();
 
         if (httpSession == null || httpSession.getAttribute("user") == null) {
@@ -42,9 +42,10 @@ public class LoadCart extends HttpServlet {
             tx = session.beginTransaction();
 
             Criteria criteria = session.createCriteria(CartItem.class);
-            criteria.add(Restrictions.eq("user", user)); 
+            criteria.add(Restrictions.eq("user", user));
 
             List<CartItem> cartItems = criteria.list();
+
             tx.commit();
 
             if (cartItems == null || cartItems.isEmpty()) {
@@ -76,7 +77,9 @@ public class LoadCart extends HttpServlet {
             res.addProperty("success", false);
             res.addProperty("message", "Server error.");
         } finally {
-            session.close();
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
         }
 
         response.setContentType("application/json");

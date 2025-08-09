@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import hibernate.Address;
 import hibernate.City;
 import hibernate.User;
+import model.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
@@ -13,7 +14,6 @@ import javax.servlet.http.*;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import model.HibernateUtil;
 
 @WebServlet("/LoadAccount")
 public class LoadAccount extends HttpServlet {
@@ -27,10 +27,10 @@ public class LoadAccount extends HttpServlet {
         JsonObject jsonResponse = new JsonObject();
 
         if (user == null) {
-            jsonResponse.addProperty("status", false);//
+            jsonResponse.addProperty("status", false);
             jsonResponse.addProperty("message", "User is not logged in.");
         } else {
-            jsonResponse.addProperty("status", true);//
+            jsonResponse.addProperty("status", true);
             jsonResponse.addProperty("message", "User data loaded successfully.");
 
             JsonObject userJson = new JsonObject();
@@ -38,34 +38,41 @@ public class LoadAccount extends HttpServlet {
             userJson.addProperty("email", user.getEmail());
             userJson.addProperty("mobile", user.getMobile());
             userJson.addProperty("role", user.getRole());
-            
+
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             String formattedDate = user.getCreatedAt().toLocalDateTime().format(formatter);
             userJson.addProperty("created_at", formattedDate);
-            
+
             userJson.addProperty("verification", user.getVerification());
 
-            jsonResponse.add("user", userJson);//
+            jsonResponse.add("user", userJson);
 
-            Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
-            List<Address> addressList = hibernateSession.createCriteria(Address.class)
-                    .add(Restrictions.eq("user", user))
-                    .list();
+            Session hibernateSession = null;
+            try {
+                hibernateSession = HibernateUtil.getSessionFactory().openSession();
 
-            JsonObject addressJson = new JsonObject();
-            addressList.forEach(address -> {
-                JsonObject addressDetails = new JsonObject();
-                addressDetails.addProperty("street", address.getStreet());
-                addressDetails.addProperty("zip_code", address.getZipCode());
+                List<Address> addressList = hibernateSession.createCriteria(Address.class)
+                        .add(Restrictions.eq("user", user))
+                        .list();
 
-                City city = address.getCity();
-                addressDetails.addProperty("city", city != null ? city.getName() : "N/A");
+                JsonObject addressJson = new JsonObject();
+                for (Address address : addressList) {
+                    JsonObject addressDetails = new JsonObject();
+                    addressDetails.addProperty("street", address.getStreet());
+                    addressDetails.addProperty("zip_code", address.getZipCode());
 
-                addressJson.add(String.valueOf(address.getId()), addressDetails);
-            });
+                    City city = address.getCity();
+                    addressDetails.addProperty("city", city != null ? city.getName() : "N/A");
 
-            jsonResponse.add("addresses", addressJson);//
-            hibernateSession.close();
+                    addressJson.add(String.valueOf(address.getId()), addressDetails);
+                }
+                jsonResponse.add("addresses", addressJson);
+
+            } finally {
+                if (hibernateSession != null && hibernateSession.isOpen()) {
+                    hibernateSession.close();
+                }
+            }
         }
 
         response.setContentType("application/json");

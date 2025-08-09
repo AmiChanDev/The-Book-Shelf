@@ -13,14 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import model.HibernateUtil;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Order;
 
-/**
- *
- * @author AmiChan
- */
 @WebServlet(name = "GetGenres", urlPatterns = {"/GetGenres"})
 public class GetGenres extends HttpServlet {
 
@@ -28,8 +23,7 @@ public class GetGenres extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        SessionFactory sf = HibernateUtil.getSessionFactory();
-        Session session = sf.openSession();
+        Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = null;
 
         response.setContentType("application/json");
@@ -39,24 +33,21 @@ public class GetGenres extends HttpServlet {
             tx = session.beginTransaction();
 
             Criteria cr = session.createCriteria(Genre.class);
-            cr.addOrder(Order.asc("name"));  
+            cr.addOrder(Order.asc("name"));
             List<Genre> genreList = cr.list();
 
-            Gson gson = new Gson();
-            String json = gson.toJson(genreList);
+            String json = new Gson().toJson(genreList);
             out.print(json);
 
             tx.commit();
         } catch (Exception e) {
-            if (tx != null) {
-                tx.rollback();
-            }
+            if (tx != null) tx.rollback();
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         } finally {
-            session.close();
-            out.close();
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
         }
     }
-
 }

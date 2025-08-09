@@ -11,9 +11,7 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import model.HibernateUtil;
@@ -53,41 +51,61 @@ public class UpdateCartQuantity extends HttpServlet {
             return;
         }
 
-        User user = (User) request.getSession().getAttribute("user");
+        HttpSession httpSession = request.getSession(false);
+        if (httpSession == null) {
+            response.getWriter().write(gson.toJson(new JsonResponse(false, "User not logged in")));
+            return;
+        }
+        User user = (User) httpSession.getAttribute("user");
         if (user == null) {
             response.getWriter().write(gson.toJson(new JsonResponse(false, "User not logged in")));
             return;
         }
 
         SessionFactory factory = HibernateUtil.getSessionFactory();
-        Session session = factory.openSession();
-        Transaction tx = session.beginTransaction();
+        Session session = null;
+        Transaction tx = null;
 
-        Criteria criteria = session.createCriteria(CartItem.class)
-                .add(Restrictions.eq("user", user))
-                .add(Restrictions.eq("book.id", body.bookId));
+        try {
+            session = factory.openSession();
+            tx = session.beginTransaction();
 
-        CartItem cartItem = (CartItem) criteria.uniqueResult();
+            Criteria criteria = session.createCriteria(CartItem.class)
+                    .add(Restrictions.eq("user", user))
+                    .add(Restrictions.eq("book.id", body.bookId));
 
-        if (cartItem != null) {
-            cartItem.setQuantity(body.quantity);
-            session.update(cartItem);
-        } else {
-            Book book = (Book) session.get(Book.class, body.bookId);
-            if (book == null) {
-                response.getWriter().write(gson.toJson(new JsonResponse(false, "Book not found")));
-                return;
+            CartItem cartItem = (CartItem) criteria.uniqueResult();
+
+            if (cartItem != null) {
+                cartItem.setQuantity(body.quantity);
+                session.update(cartItem);
+            } else {
+                Book book = (Book) session.get(Book.class, body.bookId);
+                if (book == null) {
+                    response.getWriter().write(gson.toJson(new JsonResponse(false, "Book not found")));
+                    return;
+                }
+                cartItem = new CartItem();
+                cartItem.setUser(user);
+                cartItem.setBook(book);
+                cartItem.setQuantity(body.quantity);
+                session.save(cartItem);
             }
-            cartItem = new CartItem();
-            cartItem.setUser(user);
-            cartItem.setBook(book);
-            cartItem.setQuantity(body.quantity);
-            session.save(cartItem);
+
+            tx.commit();
+
+            response.getWriter().write(gson.toJson(new JsonResponse(true, "Quantity updated")));
+
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+            response.getWriter().write(gson.toJson(new JsonResponse(false, "Server error occurred")));
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
         }
-
-        tx.commit();
-        session.close();
-
-        response.getWriter().write(gson.toJson(new JsonResponse(true, "Quantity updated")));
     }
 }

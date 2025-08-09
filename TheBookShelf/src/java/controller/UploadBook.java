@@ -29,38 +29,49 @@ public class UploadBook extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        SessionFactory sf = HibernateUtil.getSessionFactory();
-        Session session = sf.openSession();
+        Session session = null;
         Transaction tx = null;
 
         response.setContentType("text/plain");
         PrintWriter out = response.getWriter();
 
         try {
+            session = HibernateUtil.getSessionFactory().openSession();
             tx = session.beginTransaction();
 
             String title = request.getParameter("title");
             String isbn = request.getParameter("isbn");
-            Double price = Double.valueOf(request.getParameter("price"));
-            int stock = Integer.parseInt(request.getParameter("stock"));
+            String priceStr = request.getParameter("price");
+            String stockStr = request.getParameter("stock");
             String description = request.getParameter("description");
-            String genreId = request.getParameter("genreId");
-
             String authorName = request.getParameter("authorName");
+            String[] genreIds = request.getParameterValues("genres");
 
+            // Basic validations
             if (authorName == null || authorName.trim().isEmpty()) {
                 out.print("Author name cannot be empty.");
                 return;
             }
-
-            if (isbn != null && isbn.matches("\\d+")) {
-                String reversedIsbn = new StringBuilder(isbn).reverse().toString();
-                System.out.println("Reversed ISBN: " + reversedIsbn);
+            if (title == null || title.trim().isEmpty()) {
+                out.print("Title cannot be empty.");
+                return;
+            }
+            if (isbn == null || isbn.trim().isEmpty()) {
+                out.print("ISBN cannot be empty.");
+                return;
+            }
+            double price;
+            int stock;
+            try {
+                price = Double.parseDouble(priceStr);
+                stock = Integer.parseInt(stockStr);
+            } catch (NumberFormatException e) {
+                out.print("Invalid price or stock number.");
+                return;
             }
 
             Criteria criteria = session.createCriteria(Book.class);
             criteria.add(Restrictions.eq("isbn", isbn));
-
             List<Book> existingBooks = criteria.list();
             if (!existingBooks.isEmpty()) {
                 out.print("The book with ISBN " + isbn + " is already listed.");
@@ -74,8 +85,9 @@ public class UploadBook extends HttpServlet {
             book.setPrice(price);
             book.setStock(stock);
             book.setDescription(description);
-            book.setCreatedAt(Timestamp.from(Instant.now()));
+            book.setCreatedAt(new java.sql.Timestamp(System.currentTimeMillis()));
 
+            // Handle image upload
             Part imagePart = request.getPart("image");
             if (imagePart != null && imagePart.getSize() > 0) {
                 String imageFileName = System.currentTimeMillis() + "_" + imagePart.getSubmittedFileName();
@@ -84,8 +96,7 @@ public class UploadBook extends HttpServlet {
                 if (!uploadDir.exists()) {
                     uploadDir.mkdirs();
                 }
-
-                File file = new File(uploadPath + File.separator + imageFileName);
+                File file = new File(uploadDir, imageFileName);
                 try (InputStream in = imagePart.getInputStream(); FileOutputStream fos = new FileOutputStream(file)) {
                     byte[] buffer = new byte[1024];
                     int len;
@@ -93,23 +104,20 @@ public class UploadBook extends HttpServlet {
                         fos.write(buffer, 0, len);
                     }
                 }
-
                 book.setImagePath("images/products/" + imageFileName);
             }
 
-            String[] genreIds = request.getParameterValues("genres");
-            Set<Genre> genresSet = new HashSet<>();
+            // Set genres
             if (genreIds != null) {
+                Set<Genre> genresSet = new HashSet<>();
                 for (String gid : genreIds) {
                     Genre genre = (Genre) session.get(Genre.class, Integer.valueOf(gid));
                     if (genre != null) {
                         genresSet.add(genre);
                     }
                 }
+                book.setGenres(new ArrayList<>(genresSet));
             }
-
-            List<Genre> genresList = new ArrayList<>(genresSet);
-            book.setGenres(genresList);
 
             session.save(book);
             tx.commit();
@@ -123,7 +131,9 @@ public class UploadBook extends HttpServlet {
             e.printStackTrace();
             out.print("Failed to upload book.");
         } finally {
-            session.close();
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
         }
     }
 }
