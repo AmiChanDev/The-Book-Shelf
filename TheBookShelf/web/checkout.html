@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Home - The Book Shelf Online Bookstore</title>
+        <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+
+        <!-- Bootstrap 5 CDN -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- External Stylesheet for Custom CSS -->
+        <link rel="stylesheet" href="css/elements/navbar.css">
+        <link rel="stylesheet" href="css/elements/footer.css">
+        <link rel="stylesheet" href="css/checkout.css">
+        <link rel="stylesheet" href="css/notification.css" />
+    </head>
+
+    <body class="d-flex flex-column min-vh-100">
+        <header>
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container">
+                    <a class="navbar-brand d-flex align-items-center" href="index.html">
+                        <img src="images/logo.png" alt="Logo" width="40" height="40" class="me-2">
+                        <h3 class="fs-4 fw-bold mb-0">The Book Shelf</h3>
+                    </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ms-auto">
+                            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="products.html">Browse Books</a></li>
+                            <li class="nav-item"><a class="nav-link" href="cart.html">Cart</a></li>
+                            <li class="nav-item"><a class="nav-link" href="my-account.html">Account</a></li>
+                            <li class="nav-item">
+                                <button class="btn btn-danger btn-outline-danger" id="logoutBtn" onclick="signOut()">Logout</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <main class="main-wrapper">
+            <!-- Start Checkout Area -->
+            <div class="axil-checkout-area axil-section-gap">
+                <div class="container">
+                    <form action="/process-checkout" method="POST">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="axil-checkout-billing">
+                                    <h4 class="title mb-40">Shipping Details</h4>
+                                    <div class="form-group input-group">
+                                        <input type="checkbox" id="same-address-checkbox">
+                                        <label for="same-address-checkbox">Same as your current address?</label>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>First Name <span>*</span></label>
+                                                <input type="text" id="first-name" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>Last Name <span>*</span></label>
+                                                <input type="text" id="last-name" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>City <span>*</span></label>
+                                        <select id="city-select" required>
+                                            <option value="">Select</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Street <span>*</span></label>
+                                        <input type="text" id="street" placeholder="House number and street name" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Postal Code <span>*</span></label>
+                                        <input type="text" id="postal-code" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Mobile <span>*</span></label>
+                                        <input type="tel" id="mobile" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="axil-order-summery order-checkout-summery">
+                                    <h5 class="title mb--20">Your Order</h5>
+                                    <div class="summery-table-wrap">
+                                        <table class="table summery-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Product</th>
+                                                    <th>Subtotal</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="summary-tbody">
+                                                <tr class="order-product" id="summary-item-tr">
+                                                    <td>
+                                                        <span id="summary-product-title">Product-1</span> x 
+                                                        <span class="quantity" id="summary-product-qty">1</span>
+                                                    </td>
+                                                    <td>Rs. <span id="summary-product-price"></span></td>
+                                                </tr>
+                                                <tr class="order-subtotal" id="summary-subtotal-tr">
+                                                    <td>Subtotal</td>
+                                                    <td>Rs. <span id="summary-product-total-amount"></span></td>
+                                                </tr>
+                                                <tr class="order-shipping" id="summary-order-shipping-tr">
+                                                    <td colspan="2">
+                                                        <div class="shipping-amount">
+                                                            <span class="title">Shipping Charges</span>
+                                                            <span class="amount">Rs. <span id="summary-product-shipping-charges">1,000.00</span></span>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="order-total" id="summary-order-total-tr">
+                                                    <td>Total</td>
+                                                    <td class="order-total-amount">Rs. <span id="summary-order-total-amount">251,000.00</span></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="order-payment-method">
+                                        <div class="single-payment">
+                                            <div class="input-group justify-content-between align-items-center">
+                                                <input type="radio" id="payment-radio" name="payment" checked>
+                                                <label for="payment-radio">Visa/Master Card</label>
+                                                <div>
+                                                    <img src="images/icons/visa.png" alt="Visa">
+                                                    <img src="images/icons/mastercard.png" alt="Mastercard">
+                                                </div>
+                                            </div>
+                                            <p>You can pay with your credit or debit card.</p>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="axil-btn btn-bg-primary checkout-btn" onclick="checkout();">Process to Checkout</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- End Checkout Area -->
+        </main>     
+
+
+        <footer class="text-center">
+            <p class="mb-0">&copy; 2025 The Book Shelf. All rights reserved.</p>
+        </footer>
+
+        <!-- Bootstrap 5 JS and Popper.js -->
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+        <script src="js/notification.js"></script>
+        <script src="js/checkout.js"></script>
+        <script src="js/sign-out.js"></script>
+        <script src="js/scroll-footer.js"></script>
+        <script src="https://www.payhere.lk/lib/payhere.js"></script>
+
+    </body>
+</html>

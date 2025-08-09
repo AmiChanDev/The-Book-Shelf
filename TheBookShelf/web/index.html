@@ -15,7 +15,7 @@
         <link rel="stylesheet" href="css/index.css">
         <link rel="stylesheet" href="css/notification.css" />
     </head>
-    
+
     <body class="d-flex flex-column min-vh-100">
         <header>
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -43,15 +43,150 @@
             </nav>
         </header>
 
+        <main class="flex-grow-1">
+            <!-- Hero Section -->
+            <section class="hero-section text-center py-5">
+                <div class="container">
+                    <h1 class="display-4 fw-bold animate-pop">Welcome to The Book Shelf</h1>
+                    <p class="lead mb-4 animate-pop" style="animation-delay: 0.2s;">Discover your wholeheartedly curated collection of books!</p>
+                    <a href="products.html" class="btn btn-primary btn-lg animate-pop" style="animation-delay: 0.4s;">Shop Now</a>
+                </div>
+            </section>
 
-        <main class="container py-5 flex-grow-1">
-            <section class="hero text-center">
-                <h2 class="display-4">Discover, Read, Repeat.</h2>
-                <p>Your favorite place for books of all genres.</p>
-                <a href="products.html" class="btn btn-primary btn-lg">Start Shopping</a>
+            <!-- Custom Carousel Section -->
+            <section class="carousel-section py-4">
+                <div class="container">
+                    <div class="custom-carousel">
+                        <div class="carousel-slides">
+                            <div class="carousel-slide active">
+                                <img src="images/banners/banner2.jpg" alt="Featured Book 1">
+                                <div class="carousel-caption">
+                                    <h3>New Release: Epic Adventures</h3>
+                                    <p>Embark on a thrilling journey with our latest bestseller!</p>
+                                    <a href="products.html" class="btn btn-primary">Shop Now</a>
+                                </div>
+                            </div>
+                            <div class="carousel-slide">
+                                <img src="images/banners/banner3.jpg" alt="Featured Book 2">
+                                <div class="carousel-caption">
+                                    <h3>Sci-Fi Extravaganza</h3>
+                                    <p>Explore new worlds with our sci-fi collection.</p>
+                                    <a href="products.html" class="btn btn-primary">Shop Now</a>
+                                </div>
+                            </div>
+                            <div class="carousel-slide">
+                                <img src="images/banners/banner1.jpg" alt="Featured Book 3">
+                                <div class="carousel-caption">
+                                    <h3>Special Discount</h3>
+                                    <p>Get 20% off on all children's books this week!</p>
+                                    <a href="products.html" class="btn btn-primary">Shop Now</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-indicators">
+                            <span class="indicator active" data-slide="0"></span>
+                            <span class="indicator" data-slide="1"></span>
+                            <span class="indicator" data-slide="2"></span>
+                        </div>
+                        <button class="carousel-control prev">&#10094;</button>
+                        <button class="carousel-control next">&#10095;</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Featured Books Section -->
+            <section class="featured-books py-5 bg-light">
+                <div class="container">
+                    <h2 class="text-center mb-4 animate-pop">Featured Books</h2>
+                    <div class="row">
+                        <div class="col-md-4 mb-4">
+                            <div class="card book-card h-100 animate-pop" style="animation-delay: 0.2s;">
+                                <img src="images/book1.jpg" class="card-img-top" alt="Book 1">
+                                <div class="card-body">
+                                    <h5 class="card-title">The Great Adventure</h5>
+                                    <p class="card-text">A thrilling tale of exploration and discovery.</p>
+                                    <p class="card-text"><strong>$19.99</strong></p>
+                                    <a href="products.html" class="btn btn-outline-primary">View Details</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="card book-card h-100 animate-pop" style="animation-delay: 0.4s;">
+                                <img src="images/book2.jpg" class="card-img-top" alt="Book 2">
+                                <div class="card-body">
+                                    <h5 class="card-title">Mysteries of Time</h5>
+                                    <p class="card-text">A captivating sci-fi novel about time travel.</p>
+                                    <p class="card-text"><strong>$24.99</strong></p>
+                                    <a href="products.html" class="btn btn-outline-primary">View Details</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="card book-card h-100 animate-pop" style="animation-delay: 0.6s;">
+                                <img src="images/book3.jpg" class="card-img-top" alt="Book 3">
+                                <div class="card-body">
+                                    <h5 class="card-title">Poetry of the Soul</h5>
+                                    <p class="card-text">A collection of heartfelt poems.</p>
+                                    <p class="card-text"><strong>$14.99</strong></p>
+                                    <a href="products.html" class="btn btn-outline-primary">View Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Categories Section -->
+            <section class="categories py-5">
+                <div class="container">
+                    <h2 class="text-center mb-4 animate-pop">Browse by Category</h2>
+                    <div class="row text-center">
+                        <div class="col-md-3 mb-4">
+                            <div class="category-card animate-pop" style="animation-delay: 0.2s;">
+                                <img src="images/fiction.jpg" alt="Fiction" class="category-img">
+                                <h5>Fiction</h5>
+                                <a href="products.html?category=fiction" class="btn btn-outline-secondary">Explore</a>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <div class="category-card animate-pop" style="animation-delay: 0.4s;">
+                                <img src="images/non-fiction.jpg" alt="Non-Fiction" class="category-img">
+                                <h5>Non-Fiction</h5>
+                                <a href="products.html?category=non-fiction" class="btn btn-outline-secondary">Explore</a>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <div class="category-card animate-pop" style="animation-delay: 0.6s;">
+                                <img src="images/sci-fi.jpg" alt="Sci-Fi" class="category-img">
+                                <h5>Sci-Fi</h5>
+                                <a href="products.html?category=sci-fi" class="btn btn-outline-secondary">Explore</a>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <div class="category-card animate-pop" style="animation-delay: 0.8s;">
+                                <img src="images/children.jpg" alt="Children's Books" class="category-img">
+                                <h5>Children's Books</h5>
+                                <a href="products.html?category=children" class="btn btn-outline-secondary">Explore</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </section>
         </main>
 
+        <section class="about-us py-5 bg-light">
+            <div class="container">
+                <h2 class="text-center mb-4 animate-pop">About Us</h2>
+                <div class="row justify-content-center">
+                    <div class="col-md-8 text-center animate-pop" style="animation-delay: 0.2s;">
+                        <p class="lead">
+                            The Book Shelf is your haven for literary adventures. Founded with a passion for storytelling, we curate a diverse collection of books to inspire, educate, and entertain readers of all ages. Our mission is to foster a love for reading by offering a seamless online shopping experience, with carefully selected titles and exceptional customer service.
+                        </p>
+                        <a href="about.html" class="btn btn-primary mt-3">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </section>
         <footer class="text-center">
             <p class="mb-0">&copy; 2025 The Book Shelf. All rights reserved.</p>
         </footer>
@@ -61,5 +196,7 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
         <script src="js/notification.js"></script>
         <script src="js/sign-out.js"></script>
+        <script src="js/carousel.js"></script>
+        <script src="js/scroll-footer.js"></script>
     </body>
 </html>

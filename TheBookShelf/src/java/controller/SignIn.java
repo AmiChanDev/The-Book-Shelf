@@ -50,6 +50,7 @@ public class SignIn extends HttpServlet {
                 httpSession.setAttribute("user", user);
                 httpSession.setAttribute("email", credentials.email);
                 httpSession.setAttribute("userName", user.getName());
+                httpSession.setAttribute("userId", user.getId());
 
                 res.addProperty("success", true);
                 if ("verified".equals(user.getVerification())) {

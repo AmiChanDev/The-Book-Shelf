@@ -1,0 +1,233 @@
+/* Checkout Area Styling */
+.axil-checkout-area {
+    padding: 60px 0;
+    background-color: #f8f9fa;
+}
+
+.axil-checkout-billing {
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.axil-checkout-billing .title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 40px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.form-group label span {
+    color: #dc3545;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 16px;
+    color: #333;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+.form-group input::placeholder {
+    color: #6c757d;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.input-group input[type="checkbox"] {
+    width: auto;
+    cursor: pointer;
+}
+
+.axil-order-summery {
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.axil-order-summery .title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.summery-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.summery-table th,
+.summery-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.summery-table th {
+    font-weight: 600;
+    color: #333;
+}
+
+.summery-table .order-product td {
+    font-size: 16px;
+    color: #333;
+}
+
+.summery-table .quantity {
+    font-weight: 500;
+    color: #007bff;
+}
+
+.summery-table .order-subtotal td,
+.summery-table .order-total td {
+    font-weight: 600;
+    color: #333;
+}
+
+.shipping-amount {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.shipping-amount .title {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.shipping-amount .amount {
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+}
+
+.order-payment-method {
+    margin-top: 20px;
+}
+
+.single-payment {
+    border: 1px solid #dee2e6;
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
+
+.single-payment .input-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.single-payment input[type="radio"] {
+    width: auto;
+    cursor: pointer;
+}
+
+.single-payment label {
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+    flex-grow: 1;
+}
+
+.single-payment img {
+    width: 40px;
+    height: auto;
+    margin-left: 10px;
+}
+
+.single-payment p {
+    font-size: 14px;
+    color: #6c757d;
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+
+.checkout-btn {
+    width: 100%;
+    padding: 15px;
+    font-size: 16px;
+    font-weight: 600;
+    text-transform: uppercase;
+    border-radius: 6px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    margin-top: 20px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.checkout-btn:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.checkout-btn:active {
+    transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+    .checkout-btn {
+        font-size: 14px;
+        padding: 12px;
+    }
+}
+
+@media (max-width: 768px) {
+    .axil-checkout-area {
+        padding: 30px 0;
+    }
+
+    .axil-checkout-billing,
+    .axil-order-summery {
+        padding: 20px;
+    }
+
+    .axil-checkout-billing .title,
+    .axil-order-summery .title {
+        font-size: 20px;
+    }
+
+    .form-group input,
+    .form-group select {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .summery-table th,
+    .summery-table td {
+        font-size: 14px;
+        padding: 10px;
+    }
+}   
