@@ -8,41 +8,44 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebFilter(filterName = "SessionFilter", urlPatterns = {"/sign-up.html", "/sign-in.html"})
-public class SessionFilter implements Filter {
+/**
+ *
+ * @author AmiChan
+ */
+@WebFilter(urlPatterns = {"/admin-dashboard.html"})
+@WebServlet(name = "AdminFilter", urlPatterns = {"/AdminFilter"})
+public class AdminFilter implements Filter {
 
     @Override
-    public void init(FilterConfig filterConfig) {
-
+    public void init(FilterConfig filterConfig) throws ServletException {
     }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-
         HttpServletRequest req = (HttpServletRequest) request;
-        HttpServletResponse res = (HttpServletResponse) response;
+        HttpServletResponse resp = (HttpServletResponse) response;
 
-        HttpSession s = req.getSession(false);
-
-        if (s != null && s.getAttribute("user") != null) {
-            if (s.getAttribute("role").equals("ADMIN")) {
-                res.sendRedirect("admin-dashboard.html");
+        HttpSession session = req.getSession(false);
+        if (session != null && session.getAttribute("user") != null) {
+            if (session.getAttribute("role").equals("ADMIN")) {
+                chain.doFilter(request, response);
             } else {
-                res.sendRedirect("index.html");
+                resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                resp.sendRedirect("index.html");
             }
         } else {
-            chain.doFilter(request, response);
+            resp.sendRedirect("sign-in.html");
         }
 
     }
 
     @Override
     public void destroy() {
-
     }
 
 }

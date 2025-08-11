@@ -33,7 +33,7 @@ public class GetGenres extends HttpServlet {
             tx = session.beginTransaction();
 
             Criteria cr = session.createCriteria(Genre.class);
-            cr.addOrder(Order.asc("name"));
+            cr.addOrder(Order.asc("id"));
             List<Genre> genreList = cr.list();
 
             String json = new Gson().toJson(genreList);

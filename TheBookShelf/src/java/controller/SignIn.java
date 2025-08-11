@@ -51,7 +51,9 @@ public class SignIn extends HttpServlet {
                 httpSession.setAttribute("email", credentials.email);
                 httpSession.setAttribute("userName", user.getName());
                 httpSession.setAttribute("userId", user.getId());
+                httpSession.setAttribute("role", user.getRole());
 
+                res.addProperty("role", user.getRole());
                 res.addProperty("success", true);
                 if ("verified".equals(user.getVerification())) {
                     res.addProperty("redirect", user.getRole().equals("ADMIN") ? "admin-dashboard.html" : "index.html");

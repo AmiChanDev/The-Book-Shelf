@@ -62,7 +62,11 @@ async function loadAccount() {
                 document.getElementById("name").textContent = data.user.name;
                 document.getElementById("email").textContent = data.user.email;
                 document.getElementById("mobile").textContent = data.user.mobile;
-                document.getElementById("role").textContent = data.user.role;
+                if (data.user.role === "ADMIN") {
+                    document.getElementById("role").innerHTML = `<a href="admin-dashboard.html">${data.user.role}</a>`;
+                } else {
+                    document.getElementById("role").textContent = data.user.role;
+                }
 
                 document.getElementById("bookAuthor").value = data.user.name;
                 const addressDeleteSelect = document.getElementById("selectAddressDelete");
@@ -196,9 +200,6 @@ async function loadUserBooks() {
     }
 }
 
-
-
-
 // Functions
 async function changePassword() {
     const oldPassword = document.getElementById("oldPassword").value.trim();
@@ -232,7 +233,7 @@ async function changePassword() {
                                 popup.success({title: "Success", message: data.message});
                                 setTimeout(() => {
                                     location.reload(true);
-                                }, 2000);
+                                }, 1500);
                             } else {
                                 popup.error({title: "Error", message: data.message});
                             }
@@ -288,7 +289,8 @@ async function addAddress() {
                                 setTimeout(async () => {
                                     await loadAccount();
                                     clearForms();
-                                }, 1000);
+                                    location.reload(true);
+                                }, 1500);
                             } else {
                                 popup.error({title: "Error", message: data.message});
                             }
@@ -336,7 +338,8 @@ async function deleteAddress() {
                                 setTimeout(async () => {
                                     await loadAccount();
                                     clearForms();
-                                }, 1000);
+                                    location.reload(true);
+                                }, 1500);
                             } else {
                                 popup.error({title: "Error", message: data.message});
                             }
@@ -390,7 +393,8 @@ async function updateAddress() {
                                 setTimeout(async () => {
                                     await loadAccount();
                                     clearForms();
-                                }, 1000);
+                                    location.reload(true);
+                                }, 1500);
                             } else {
                                 popup.error({title: "Error", message: data.message});
                             }
@@ -476,7 +480,10 @@ async function uploadBook() {
                         document.getElementById("uploadBookForm").reset();
                         document.getElementById("bookAuthor").value = document.getElementById("name").textContent;
 
-                        await loadUserBooks();
+                        setTimeout(async () => {
+                            await loadUserBooks();
+                            location.reload(true);
+                        }, 1500);
                     } else {
                         popup.error({title: "Error", message: result});
                     }
@@ -540,6 +547,7 @@ async function loadPurchaseHistory() {
         console.error(error);
     }
 }
+
 async function showOrderDetailsPopup(orderId) {
     try {
         const response = await fetch(`GetOrderDetails?orderId=${orderId}`);

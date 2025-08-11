@@ -23,14 +23,6 @@ public class OrderItem implements Serializable {
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
-    }
-
     @Column(name = "book_id", nullable = true)
     private Integer bookId;
 
@@ -70,5 +62,13 @@ public class OrderItem implements Serializable {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 }

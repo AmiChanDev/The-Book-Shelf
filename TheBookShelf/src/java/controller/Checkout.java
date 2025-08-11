@@ -104,8 +104,7 @@ public class Checkout extends HttpServlet {
                 address.setZipCode(postalCode);
                 session.save(address);
             }
-
-            // Fetch cart items
+            
             Criteria cartCriteria = session.createCriteria(CartItem.class);
             cartCriteria.add(Restrictions.eq("user", user));
             List<CartItem> cartItems = cartCriteria.list();

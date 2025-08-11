@@ -18,7 +18,8 @@ public class Genre implements Serializable {
     @Transient
     private List<Book> books;
 
-       public Genre() {}
+    public Genre() {
+    }
 
     public int getId() {
         return id;

@@ -280,5 +280,25 @@
             </footer>
 
             <script src="js/scroll-footer.js"></script>
+            <script>
+                                    document.addEventListener("DOMContentLoaded", () => {
+                                        const triggerTabList = [].slice.call(document.querySelectorAll('#nav-tab a'));
+                                        triggerTabList.forEach(triggerEl => {
+                                            triggerEl.addEventListener('shown.bs.tab', event => {
+
+                                                localStorage.setItem('activeTab', event.target.getAttribute('href'));
+                                            });
+                                        });
+ 
+                                        const activeTab = localStorage.getItem('activeTab');
+                                        if (activeTab) {
+                                            const someTabTriggerEl = document.querySelector(`#nav-tab a[href="${activeTab}"]`);
+                                            if (someTabTriggerEl) {
+                                                const tab = new bootstrap.Tab(someTabTriggerEl);
+                                                tab.show();
+                                            }
+                                        }
+                                    });
+            </script>
     </body>
 </html>
