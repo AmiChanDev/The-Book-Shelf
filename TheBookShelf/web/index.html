@@ -1,41 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <title>Home - The Book Shelf Online Bookstore</title>
-        <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="images/favicon.ico" type="image/x-icon" />
+
+        <!-- SEO basics -->
+        <meta name="description" content="The Book Shelf — discover curated books, bestsellers, and upcoming events. Join our community of readers." />
 
         <!-- Bootstrap 5 CDN -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"/>
+
+        <!-- Bootstrap Icons (for social strip) -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
 
         <!-- External Stylesheet for Custom CSS -->
-        <link rel="stylesheet" href="css/elements/navbar.css">
-        <link rel="stylesheet" href="css/elements/footer.css">
-        <link rel="stylesheet" href="css/index.css">
-        <link rel="stylesheet" href="css/carousel.css">
+        <link rel="stylesheet" href="css/elements/navbar.css" />
+        <link rel="stylesheet" href="css/elements/footer.css" />
+        <link rel="stylesheet" href="css/index.css" />
+        <link rel="stylesheet" href="css/carousel.css" />
         <link rel="stylesheet" href="css/notification.css" />
     </head>
 
     <body class="d-flex flex-column min-vh-100">
         <header>
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
                 <div class="container">
                     <a class="navbar-brand d-flex align-items-center" href="index.html">
-                        <img src="images/logo.png" alt="Logo" width="40" height="40" class="me-2">
+                        <img src="images/logo.png" alt="The Book Shelf Logo" width="40" height="40" class="me-2" loading="lazy"/>
                         <h3 class="fs-4 fw-bold mb-0">The Book Shelf</h3>
                     </a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav ms-auto">
-                            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <div class="collapse navbar-collapse" id="navbarNav" role="navigation" aria-label="Primary">
+                        <ul class="navbar-nav ms-auto align-items-lg-center">
+                            <li class="nav-item"><a class="nav-link" href="index.html" aria-current="page">Home</a></li>
                             <li class="nav-item"><a class="nav-link" href="products.html">Browse Books</a></li>
                             <li class="nav-item"><a class="nav-link" href="cart.html">Cart</a></li>
                             <li class="nav-item"><a class="nav-link" href="my-account.html">Account</a></li>
-                            <li class="nav-item">
+                            <li class="nav-item ms-lg-2">
                                 <button class="btn btn-danger btn-outline-danger" id="logoutBtn" onclick="signOut()">Logout</button>
                             </li>
                         </ul>
@@ -57,18 +63,18 @@
             <!-- Custom Carousel Section -->
             <section class="carousel-section py-4">
                 <div class="container">
-                    <div class="custom-carousel">
+                    <div class="custom-carousel" aria-roledescription="carousel">
                         <div class="carousel-slides">
                             <div class="carousel-slide active">
-                                <img src="images/banners/banner2.jpg" alt="Featured Book 1">
+                                <img src="images/banners/banner2.jpg" alt="New releases banner" loading="lazy"/>
                                 <div class="carousel-caption">
-                                    <h3>New Release: Epic Adventures</h3>
+                                    <h3>New Releases</h3>
                                     <p>Embark on a thrilling journey with our latest bestseller!</p>
                                     <a href="products.html" class="btn btn-primary">Shop Now</a>
                                 </div>
                             </div>
                             <div class="carousel-slide">
-                                <img src="images/banners/banner3.jpg" alt="Featured Book 2">
+                                <img src="images/banners/banner3.jpg" alt="Sci-Fi collection banner" loading="lazy"/>
                                 <div class="carousel-caption">
                                     <h3>Sci-Fi Extravaganza</h3>
                                     <p>Explore new worlds with our sci-fi collection.</p>
@@ -76,21 +82,21 @@
                                 </div>
                             </div>
                             <div class="carousel-slide">
-                                <img src="images/banners/banner1.jpg" alt="Featured Book 3">
+                                <img src="images/banners/banner1.jpg" alt="Children's discount banner" loading="lazy"/>
                                 <div class="carousel-caption">
                                     <h3>Special Discount</h3>
-                                    <p>Get 20% off on all children's books this week!</p>
+                                    <p>Get special discounts on all children's books next week!</p>
                                     <a href="products.html" class="btn btn-primary">Shop Now</a>
                                 </div>
                             </div>
                         </div>
-                        <div class="carousel-indicators">
-                            <span class="indicator active" data-slide="0"></span>
-                            <span class="indicator" data-slide="1"></span>
-                            <span class="indicator" data-slide="2"></span>
+                        <div class="carousel-indicators" role="tablist" aria-label="Slide indicators">
+                            <button class="indicator active" data-slide="0" aria-label="Slide 1" aria-current="true"></button>
+                            <button class="indicator" data-slide="1" aria-label="Slide 2"></button>
+                            <button class="indicator" data-slide="2" aria-label="Slide 3"></button>
                         </div>
-                        <button class="carousel-control prev">&#10094;</button>
-                        <button class="carousel-control next">&#10095;</button>
+                        <button class="carousel-control prev" aria-label="Previous slide">&#10094;</button>
+                        <button class="carousel-control next" aria-label="Next slide">&#10095;</button>
                     </div>
                 </div>
             </section>
@@ -102,7 +108,7 @@
                     <div class="row">
                         <div class="col-md-4 mb-4">
                             <div class="card book-card h-100 animate-pop" style="animation-delay: 0.2s;">
-                                <img src="images/products/product1.jpg" class="card-img-top" alt="Book 1">
+                                <img src="images/products/product1.jpg" class="card-img-top" alt="The Great Adventure cover" loading="lazy"/>
                                 <div class="card-body">
                                     <h5 class="card-title">The Great Adventure</h5>
                                     <p class="card-text">A thrilling tale of exploration and discovery.</p>
@@ -113,7 +119,7 @@
                         </div>
                         <div class="col-md-4 mb-4">
                             <div class="card book-card h-100 animate-pop" style="animation-delay: 0.4s;">
-                                <img src="images/products/product2.jpg" class="card-img-top" alt="Book 2">
+                                <img src="images/products/product2.jpg" class="card-img-top" alt="Mysteries of Time cover" loading="lazy"/>
                                 <div class="card-body">
                                     <h5 class="card-title">Mysteries of Time</h5>
                                     <p class="card-text">A captivating sci-fi novel about time travel.</p>
@@ -124,7 +130,7 @@
                         </div>
                         <div class="col-md-4 mb-4">
                             <div class="card book-card h-100 animate-pop" style="animation-delay: 0.6s;">
-                                <img src="images/products/product3.jpg" class="card-img-top" alt="Book 3">
+                                <img src="images/products/product3.jpg" class="card-img-top" alt="Poetry of the Soul cover" loading="lazy"/>
                                 <div class="card-body">
                                     <h5 class="card-title">Poetry of the Soul</h5>
                                     <p class="card-text">A collection of heartfelt poems.</p>
@@ -144,30 +150,156 @@
                     <div class="row text-center">
                         <div class="col-md-3 mb-4">
                             <div class="category-card animate-pop" style="animation-delay: 0.2s;">
-                                <img src="images/category/sf.jpg" alt="Fiction" class="category-img">
+                                <img src="images/category/sf.jpg" alt="Fiction category" class="category-img" loading="lazy"/>
                                 <h5>Fiction</h5>
-                                <a href="products.html?category=fiction" class="btn btn-outline-secondary">Explore</a>
+                                <a href="products.html?genre=fiction" class="btn btn-outline-secondary">Explore</a>
                             </div>
                         </div>
                         <div class="col-md-3 mb-4">
                             <div class="category-card animate-pop" style="animation-delay: 0.4s;">
-                                <img src="images/category/rom.jpg" alt="romance" class="category-img">
+                                <img src="images/category/rom.jpg" alt="Romance category" class="category-img" loading="lazy"/>
                                 <h5>Romance</h5>
-                                <a href="products.html?category=non-fiction" class="btn btn-outline-secondary">Explore</a>
+                                <a href="products.html?genre=romance" class="btn btn-outline-secondary">Explore</a>
                             </div>
                         </div>
                         <div class="col-md-3 mb-4">
                             <div class="category-card animate-pop" style="animation-delay: 0.6s;">
-                                <img src="images/category/adv.jpg" alt="Sci-Fi" class="category-img">
+                                <img src="images/category/adv.jpg" alt="Adventure category" class="category-img" loading="lazy"/>
                                 <h5>Adventure</h5>
-                                <a href="products.html?category=sci-fi" class="btn btn-outline-secondary">Explore</a>
+                                <a href="products.html?genre=adventure" class="btn btn-outline-secondary">Explore</a>
                             </div>
                         </div>
                         <div class="col-md-3 mb-4">
                             <div class="category-card animate-pop" style="animation-delay: 0.8s;">
-                                <img src="images/category/ft.jpg" alt="Children's Books" class="category-img">
+                                <img src="images/category/ft.jpg" alt="Fairy Tales category" class="category-img" loading="lazy"/>
                                 <h5>Fairy Tales</h5>
-                                <a href="products.html?category=children" class="btn btn-outline-secondary">Explore</a>
+                                <a href="products.html?genre=fairy-tales" class="btn btn-outline-secondary">Explore</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!--             Bestsellers Section 
+                        <section class="bestsellers py-5 bg-light">
+                            <div class="container">
+                                <h2 class="text-center mb-4 animate-pop">Bestsellers</h2>
+                                <div class="row">
+                                    <div class="col-md-3 mb-4">
+                                        <div class="card h-100 shadow-sm">
+                                            <img src="images/products/product4.jpg" class="card-img-top" alt="Ocean of Secrets cover" loading="lazy"/>
+                                            <div class="card-body">
+                                                <h5 class="card-title">Ocean of Secrets</h5>
+                                                <p class="card-text"><strong>$22.99</strong></p>
+                                                <a href="products.html" class="btn btn-outline-primary btn-sm">View Details</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 mb-4">
+                                        <div class="card h-100 shadow-sm">
+                                            <img src="images/products/product5.jpg" class="card-img-top" alt="The Midnight Library cover" loading="lazy"/>
+                                            <div class="card-body">
+                                                <h5 class="card-title">The Midnight Library</h5>
+                                                <p class="card-text"><strong>$18.99</strong></p>
+                                                <a href="products.html" class="btn btn-outline-primary btn-sm">View Details</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 mb-4">
+                                        <div class="card h-100 shadow-sm">
+                                            <img src="images/products/product6.jpg" class="card-img-top" alt="Winds of Destiny cover" loading="lazy"/>
+                                            <div class="card-body">
+                                                <h5 class="card-title">Winds of Destiny</h5>
+                                                <p class="card-text"><strong>$20.99</strong></p>
+                                                <a href="products.html" class="btn btn-outline-primary btn-sm">View Details</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 mb-4">
+                                        <div class="card h-100 shadow-sm">
+                                            <img src="images/products/product7.jpg" class="card-img-top" alt="Mind Over Matter cover" loading="lazy"/>
+                                            <div class="card-body">
+                                                <h5 class="card-title">Mind Over Matter</h5>
+                                                <p class="card-text"><strong>$15.99</strong></p>
+                                                <a href="products.html" class="btn btn-outline-primary btn-sm">View Details</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>-->
+
+            <!-- Quote of the Day -->
+            <section class="quote-section py-4 text-center bg-dark text-light">
+                <div class="container">
+                    <blockquote class="blockquote mb-1">
+                        <p class="mb-0">"A reader lives a thousand lives before he dies. The man who never reads lives only one."</p>
+                    </blockquote>
+                </div>
+            </section>
+
+            <!-- Testimonials -->
+            <section class="testimonials py-5">
+                <div class="container">
+                    <h2 class="text-center mb-4 animate-pop">What Our Readers Say</h2>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card p-3 shadow-sm h-100">
+                                <p class="mb-2">"The Book Shelf has completely changed the way I shop for books. Excellent service!"</p>
+                                <small class="text-muted">— Sarah W.</small>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mt-4 mt-md-0">
+                            <div class="card p-3 shadow-sm h-100">
+                                <p class="mb-2">"I found rare titles here that I couldn't get anywhere else. Highly recommended!"</p>
+                                <small class="text-muted">— David P.</small>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mt-4 mt-md-0">
+                            <div class="card p-3 shadow-sm h-100">
+                                <p class="mb-2">"The curated collections are amazing. I always discover something new!"</p>
+                                <small class="text-muted">— Emily R.</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Newsletter -->
+            <section class="newsletter py-5 bg-primary text-light">
+                <div class="container text-center">
+                    <h2 class="mb-3">Join Our Newsletter</h2>
+                    <p class="mb-4">Be the first to know about new releases, special offers, and exclusive content!</p>
+                    <form id="newsletterForm" class="row justify-content-center" novalidate>
+                        <div class="col-md-6">
+                            <label for="newsletterEmail" class="visually-hidden">Email address</label>
+                            <input id="newsletterEmail" type="email" class="form-control mb-3" placeholder="Enter your email" required/>
+                            <button class="btn btn-light" type="submit">Subscribe</button>
+                        </div>
+                    </form>
+                    <div id="newsletterMsg" class="mt-3" aria-live="polite"></div>
+                </div>
+            </section>
+
+            <!-- Upcoming Events -->
+            <section class="events py-5">
+                <div class="container">
+                    <h2 class="text-center mb-4 animate-pop">Upcoming Events</h2>
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <div class="event-card p-4 shadow-sm bg-light h-100">
+                                <h5>Online Author Meet &amp; Greet</h5>
+                                <p class="mb-1"><strong>Date:</strong> 22 September 2025</p>
+                                <p class="mb-3">Meet bestselling authors virtually and get exclusive book insights.</p>
+                                <a href="#" class="btn btn-outline-primary btn-sm">Join Now</a>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="event-card p-4 shadow-sm bg-light h-100">
+                                <h5>Monthly Book Club</h5>
+                                <p class="mb-1"><strong>Date:</strong> 1 October 2025</p>
+                                <p class="mb-3">Discuss the book of the month with fellow readers and win prizes.</p>
+                                <a href="#" class="btn btn-outline-primary btn-sm">Register</a>
                             </div>
                         </div>
                     </div>
@@ -175,29 +307,67 @@
             </section>
         </main>
 
+        <!-- Social strip -->
+        <section class="bg-light py-3 border-top">
+            <div class="container d-flex flex-wrap justify-content-center gap-4">
+                <a class="text-decoration-none" href="#" aria-label="Follow on Facebook"><i class="bi bi-facebook fs-4"></i></a>
+                <a class="text-decoration-none" href="#" aria-label="Follow on Instagram"><i class="bi bi-instagram fs-4"></i></a>
+                <a class="text-decoration-none" href="#" aria-label="Follow on Twitter/X"><i class="bi bi-twitter-x fs-4"></i></a>
+                <a class="text-decoration-none" href="#" aria-label="Follow on YouTube"><i class="bi bi-youtube fs-4"></i></a>
+                <a class="text-decoration-none" href="#" aria-label="Follow on TikTok"><i class="bi bi-tiktok fs-4"></i></a>
+            </div>
+        </section>
+
         <section class="about-us py-5 bg-light">
             <div class="container">
                 <h2 class="text-center mb-4 animate-pop">About Us</h2>
                 <div class="row justify-content-center">
                     <div class="col-md-8 text-center animate-pop" style="animation-delay: 0.2s;">
                         <p class="lead">
-                            The Book Shelf is your haven for literary adventures. Founded with a passion for storytelling, we curate a diverse collection of books to inspire, educate, and entertain readers of all ages. Our mission is to foster a love for reading by offering a seamless online shopping experience, with carefully selected titles and exceptional customer service.
+                            The Book Shelf is your haven for literary adventures. Founded with a passion for storytelling,
+                            we curate a diverse collection of books to inspire, educate, and entertain readers of all ages.
+                            Our mission is to foster a love for reading by offering a seamless online shopping experience,
+                            with carefully selected titles and exceptional customer service.
                         </p>
                         <a href="#" class="btn btn-primary mt-3">Learn More</a>
                     </div>
                 </div>
             </div>
         </section>
-        <footer class="text-center">
+
+        <footer class="text-center footer">
             <p class="mb-0">&copy; 2025 The Book Shelf. All rights reserved.</p>
         </footer>
+
 
         <!-- Bootstrap 5 JS and Popper.js -->
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+
+        <!-- Your existing scripts -->
         <script src="js/notification.js"></script>
         <script src="js/sign-out.js"></script>
         <script src="js/carousel.js"></script>
         <script src="js/scroll-footer.js"></script>
+
+        <script>
+                                    (function () {
+                                        const form = document.getElementById('newsletterForm');
+                                        const email = document.getElementById('newsletterEmail');
+                                        const msg = document.getElementById('newsletterMsg');
+
+                                        if (form) {
+                                            form.addEventListener('submit', function (e) {
+                                                e.preventDefault();
+                                                if (!email.value || !email.validity.valid) {
+                                                    msg.innerHTML = '<span class="text-warning">Please enter a valid email address.</span>';
+                                                    return;
+                                                }
+                                                msg.innerHTML = '<span class="text-light bg-success px-2 py-1 rounded-1 d-inline-block">Subscribed! Check your inbox for a welcome email.</span>';
+                                                form.reset();
+                                            });
+                                        }
+                                    }());
+        </script>
     </body>
 </html>

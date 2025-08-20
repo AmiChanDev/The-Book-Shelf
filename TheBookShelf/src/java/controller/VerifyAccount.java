@@ -28,16 +28,14 @@ public class VerifyAccount extends HttpServlet {
 
         Gson gson = new Gson();
         JsonObject responseObject = new JsonObject();
-        responseObject.addProperty("status", false);
 
         HttpSession ses = request.getSession();
 
         if (ses.getAttribute("email") == null) {
+            responseObject.addProperty("status", false);
             responseObject.addProperty("message", "Email Not Found");
         } else {
-
             String email = ses.getAttribute("email").toString();
-
             JsonObject userCode = gson.fromJson(request.getReader(), JsonObject.class);
             String verificationCode = userCode.get("verificationcode").getAsString();
 
@@ -55,6 +53,7 @@ public class VerifyAccount extends HttpServlet {
                 java.util.List<User> userList = c1.list();
 
                 if (userList.isEmpty()) {
+                    responseObject.addProperty("status", false);
                     responseObject.addProperty("message", "Invalid Verification Code");
                 } else {
                     User user = userList.get(0);
@@ -65,7 +64,6 @@ public class VerifyAccount extends HttpServlet {
                     tx.commit();
 
                     ses.setAttribute("user", user);
-
                     responseObject.addProperty("status", true);
                     responseObject.addProperty("message", "Verification Success!");
                 }
@@ -73,7 +71,8 @@ public class VerifyAccount extends HttpServlet {
                 if (tx != null) {
                     tx.rollback();
                 }
-                e.printStackTrace();
+                System.err.println("Error in VerifyAccount: " + e.getMessage());
+                responseObject.addProperty("status", false);
                 responseObject.addProperty("message", "Server error.");
             } finally {
                 if (s != null && s.isOpen()) {

@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
     loadBooksListing();
 });
 
-
 //Loading Functions
 async function loadDashboard() {
     try {
@@ -154,7 +153,7 @@ async function loadPurchaseHistory() {
             tr.appendChild(tdOrderId);
 
             const tdUserId = document.createElement('td');
-            tdUserId.textContent = order.orderUid;   
+            tdUserId.textContent = order.orderUid;
             tr.appendChild(tdUserId);
 
             const tdUserName = document.createElement('td');
@@ -194,6 +193,7 @@ async function showOrderDetailsPopup(orderId) {
 
         let html = `<h4>Order Details (ID: ${orderId})</h4>
 <h6>Shipping fee: ${shippingFee} LKR</h6>`;
+
         html += `<table class="table table-striped table-hover">
                     <thead>
                         <tr>
@@ -216,8 +216,10 @@ async function showOrderDetailsPopup(orderId) {
         });
 
         html += `</tbody></table>`;
-
         html += `<h6>Total Amount (including shipping): ${(total + shippingFee).toFixed(2)} LKR</h6>`;
+
+        // Add a print button
+        html += `<button id="printBtn" class="btn btn-primary mt-3" onclick="window.print()">Print Order</button>`;
 
         const width = 600;
         const height = 400;
@@ -230,9 +232,23 @@ async function showOrderDetailsPopup(orderId) {
                 `width=${width},height=${height},left=${left},top=${top},scrollbars=yes`
                 );
 
-        popup.document.write(`<html><head><title>Order Details</title>
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"></head>
-            <body class="p-3">${html}</body></html>`);
+        popup.document.write(`
+<html>
+<head>
+<title>Order Details</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+/* Hide print button when printing */
+@media print {
+    #printBtn {
+        display: none;
+    }
+}
+</style>
+</head>
+<body class="p-3">${html}</body>
+</html>
+        `);
         popup.document.close();
     } catch (error) {
         alert("Could not load order details.");

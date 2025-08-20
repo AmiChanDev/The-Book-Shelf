@@ -7,7 +7,6 @@ public class HibernateUtil {
 
     private static SessionFactory sessionFactory;
 
-    // ✅ Ensure the factory is created at class loading
     static {
         createSessionFactory();
     }
